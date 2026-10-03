@@ -1,51 +1,85 @@
 import { neon } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-http";
+import * as schema from "@/db/schema";
 
-const MAX_RETRIES = 2; // hard cap: 1 initial attempt + 2 retries = 3 calls max
+/**
+ * Connection safety
+ * -----------------
+ * - Neon's HTTP driver is stateless: one fetch per query against the pooled
+ *   (PgBouncer, "-pooler") endpoint. No sockets are held open, so lambdas
+ *   cannot leak connections.
+ * - Every call goes through `safeQuery`: per-attempt timeout, at most
+ *   MAX_RETRIES retries (bounded loop), and a circuit breaker that fails fast
+ *   after repeated failures instead of hammering a struggling database.
+ */
+
+const MAX_RETRIES = 2; // 1 attempt + 2 retries = 3 calls max
+const ATTEMPT_TIMEOUT_MS = 5_000;
 const BASE_DELAY_MS = 150;
+const BREAKER_THRESHOLD = 3; // consecutive failed calls before opening
+const BREAKER_COOLDOWN_MS = 30_000;
 
 export type DbResult<T> =
   | { ok: true; data: T }
-  | { ok: false; error: string };
+  | { ok: false; error: "not_configured" | "circuit_open" | "unavailable" };
 
-// Neon's HTTP driver is stateless: each query is a single fetch to Neon's
-// pooled endpoint (PgBouncer), so no TCP connections are held per lambda.
-// Use the "-pooler" connection string in DATABASE_URL.
-let client: ReturnType<typeof neon> | null = null;
+let _db: ReturnType<typeof createDb> | null = null;
 
-function getClient() {
-  if (!client) {
-    const url = process.env.DATABASE_URL;
-    if (!url) throw new Error("DATABASE_URL is not set");
-    client = neon(url);
-  }
-  return client;
+function createDb(url: string) {
+  return drizzle(neon(url), { schema });
 }
+
+function getDb() {
+  if (!_db) {
+    const url = process.env.DATABASE_URL;
+    if (!url) return null;
+    _db = createDb(url);
+  }
+  return _db;
+}
+
+// Circuit breaker state (per server instance).
+let consecutiveFailures = 0;
+let openUntil = 0;
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
+function withTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
+  let timer: ReturnType<typeof setTimeout>;
+  const timeout = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => reject(new Error("db timeout")), ms);
+  });
+  return Promise.race([p, timeout]).finally(() => clearTimeout(timer));
+}
+
 /**
- * Runs a query with at most MAX_RETRIES retries (bounded loop, no recursion).
- * Never throws: returns a fallback error state instead.
+ * Run a Drizzle query safely. Never throws.
+ *
+ *   const r = await safeQuery((db) => db.select().from(teams).limit(1));
  */
-export async function query<T = Record<string, unknown>>(
-  text: string,
-  params: unknown[] = [],
-): Promise<DbResult<T[]>> {
-  let sql: ReturnType<typeof neon>;
-  try {
-    sql = getClient();
-  } catch {
-    return { ok: false, error: "Database is not configured." };
-  }
+export async function safeQuery<T>(
+  fn: (db: NonNullable<ReturnType<typeof getDb>>) => Promise<T>,
+): Promise<DbResult<T>> {
+  const db = getDb();
+  if (!db) return { ok: false, error: "not_configured" };
+
+  if (Date.now() < openUntil) return { ok: false, error: "circuit_open" };
 
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
     try {
-      const rows = await sql.query(text, params);
-      return { ok: true, data: rows as T[] };
+      const data = await withTimeout(fn(db), ATTEMPT_TIMEOUT_MS);
+      consecutiveFailures = 0;
+      return { ok: true, data };
     } catch (err) {
-      console.error(`[db] attempt ${attempt + 1} failed:`, err);
+      console.error(`[db] attempt ${attempt + 1}/${MAX_RETRIES + 1} failed`, err);
       if (attempt < MAX_RETRIES) await sleep(BASE_DELAY_MS * 2 ** attempt);
     }
   }
-  return { ok: false, error: "Database temporarily unavailable." };
+
+  consecutiveFailures++;
+  if (consecutiveFailures >= BREAKER_THRESHOLD) {
+    openUntil = Date.now() + BREAKER_COOLDOWN_MS;
+    consecutiveFailures = 0;
+  }
+  return { ok: false, error: "unavailable" };
 }
