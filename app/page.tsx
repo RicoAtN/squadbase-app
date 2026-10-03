@@ -1,3 +1,5 @@
+import { appUrl } from "@/lib/auth";
+
 const features = [
   {
     icon: "🏆",
@@ -18,9 +20,26 @@ const features = [
 
 export default function LandingPage() {
   return (
-    <main>
+    <main className="min-h-screen bg-slate-50 text-slate-900">
+      {/* Top navigation */}
+      <nav className="border-b border-emerald-800/20 bg-emerald-900 px-6 py-4 text-white">
+        <div className="mx-auto flex max-w-5xl items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="text-xl font-black tracking-tight text-white">⚽ SQUADBASE</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <a
+              href={`${appUrl()}/login`}
+              className="rounded-lg bg-white/10 px-4 py-2 text-sm font-semibold text-white backdrop-blur hover:bg-white/20 transition"
+            >
+              Inloggen &rarr;
+            </a>
+          </div>
+        </div>
+      </nav>
+
       {/* Hero */}
-      <section className="bg-gradient-to-b from-emerald-700 to-emerald-900 px-6 py-24 text-center text-white sm:py-32">
+      <section className="bg-gradient-to-b from-emerald-900 to-emerald-800 px-6 py-20 text-center text-white sm:py-28">
         <div className="mx-auto max-w-3xl">
           <p className="mb-4 inline-block rounded-full bg-white/10 px-4 py-1 text-sm font-medium">
             Squadbase · voor amateurvoetbalteams
@@ -32,12 +51,20 @@ export default function LandingPage() {
             Stand, boetes en spelersstatistieken op één plek. Je eigen
             teampagina op <span className="font-semibold">jouwteam.squadbase.nl</span>.
           </p>
-          <a
-            href="#toegang"
-            className="mt-10 inline-block rounded-xl bg-white px-8 py-3 text-lg font-semibold text-emerald-800 shadow-lg transition hover:bg-emerald-50"
-          >
-            Vraag toegang aan
-          </a>
+          <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+            <a
+              href="#toegang"
+              className="inline-block rounded-xl bg-white px-8 py-3 text-lg font-semibold text-emerald-900 shadow-lg transition hover:bg-emerald-50"
+            >
+              Vraag toegang aan
+            </a>
+            <a
+              href={`${appUrl()}/login`}
+              className="inline-block rounded-xl border border-white/30 bg-white/10 px-8 py-3 text-lg font-semibold text-white backdrop-blur transition hover:bg-white/20"
+            >
+              Inloggen als teamlid
+            </a>
+          </div>
         </div>
       </section>
 
@@ -53,7 +80,7 @@ export default function LandingPage() {
       </section>
 
       {/* Access request (MVP: opens the visitor's mail client, addressed to info@) */}
-      <section id="toegang" className="bg-white px-6 py-20">
+      <section id="toegang" className="bg-white px-6 py-20 border-t border-slate-200">
         <div className="mx-auto max-w-lg">
           <h2 className="text-center text-3xl font-bold">Vraag toegang aan</h2>
           <p className="mt-3 text-center text-slate-600">
