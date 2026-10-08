@@ -131,13 +131,14 @@ export async function verifyAndLogin(token: string) {
   const userId = r.ok ? r.data[0]?.userId : undefined;
   if (!userId) return null;
 
-  await createSession(userId);
+  const cookieData = await createSession(userId);
 
   const userQuery = await safeQuery((db) =>
     db.select({ globalRole: users.globalRole }).from(users).where(eq(users.id, userId)).limit(1),
   );
 
-  return userQuery.ok ? userQuery.data[0]?.globalRole ?? "user" : "user";
+  const role = userQuery.ok ? userQuery.data[0]?.globalRole ?? "user" : "user";
+  return { role, cookieData };
 }
 
 export async function logout() {

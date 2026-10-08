@@ -20,25 +20,56 @@ const TTL_SECONDS = 60 * 60 * 8;
 
 function secret(): string {
   const s = process.env.SESSION_SECRET;
-  if (!s || s.length < 32) throw new Error("SESSION_SECRET missing or too short");
+  if (!s || s.length < 32) {
+    console.error("[session] CRITISCHE FOUT: SESSION_SECRET ontbreekt in Vercel Environment Variables (moet minimaal 32 tekens zijn).");
+    throw new Error("SESSION_SECRET missing or too short (voeg toe in Vercel Settings -> Environment Variables)");
+  }
   return s;
 }
 
 const sign = (payload: string) =>
   createHmac("sha256", secret()).update(payload).digest("base64url");
 
-export async function createSession(userId: string) {
+export type SessionCookieData = {
+  name: string;
+  value: string;
+  options: {
+    httpOnly: boolean;
+    secure: boolean;
+    sameSite: "lax";
+    path: string;
+    maxAge: number;
+    domain: string | undefined;
+  };
+};
+
+export async function createSession(userId: string): Promise<SessionCookieData> {
   const exp = Math.floor(Date.now() / 1000) + TTL_SECONDS;
   const payload = `${userId}.${exp}`;
-  (await cookies()).set(COOKIE, `${payload}.${sign(payload)}`, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: TTL_SECONDS,
-    // e.g. ".squadbase.nl" to share the session between admin. and app.
-    domain: process.env.COOKIE_DOMAIN || undefined,
-  });
+  const cookieData: SessionCookieData = {
+    name: COOKIE,
+    value: `${payload}.${sign(payload)}`,
+    options: {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: TTL_SECONDS,
+      // e.g. ".squadbase.nl" to share the session between admin. and app.
+      domain: process.env.COOKIE_DOMAIN || undefined,
+    },
+  };
+
+  try {
+    const store = await cookies();
+    store.set(cookieData.name, cookieData.value, cookieData.options);
+  } catch (err) {
+    // In Route Handlers, setting on next/headers cookies store can throw or be ignored;
+    // returning the cookieData allows setting directly on the NextResponse.
+    console.warn("[session] Kon niet direct via cookies() store zetten, wordt via response afgehandeld:", err);
+  }
+
+  return cookieData;
 }
 
 export async function destroySession() {
