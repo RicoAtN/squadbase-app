@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { safeQuery } from "@/lib/db";
 import { teams, players } from "@/db/schema";
 import { appUrl } from "@/lib/auth";
+import Image from "next/image";
 
 export const dynamic = "force-dynamic";
 
@@ -51,12 +52,12 @@ export default async function TeamPage({
   // If team is inactive/archived
   if (!team.isActive) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center gap-4 p-8 text-center bg-slate-50">
-        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-100 text-amber-800 text-4xl font-bold">
+      <main className="flex min-h-screen flex-col items-center justify-center gap-4 p-8 text-center bg-navy-950 text-slate-100">
+        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-950/80 border border-amber-700/50 text-amber-300 text-4xl font-bold">
           📦
         </div>
-        <h1 className="text-2xl font-bold text-slate-900">{team.name}</h1>
-        <p className="text-sm text-slate-600 max-w-sm">
+        <h1 className="text-2xl font-bold text-white">{team.name}</h1>
+        <p className="text-sm text-slate-400 max-w-sm">
           Deze teampagina is momenteel niet actief of gearchiveerd door de beheerder.
         </p>
       </main>
@@ -86,19 +87,19 @@ export default async function TeamPage({
   const homeGround = team.themeSettings?.home_ground;
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col text-slate-900">
+    <div className="min-h-screen bg-navy-950 flex flex-col text-slate-100">
       {/* 1. Header Navigation */}
-      <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/95 backdrop-blur-md px-5 sm:px-8 py-3.5 shadow-2xs">
+      <header className="sticky top-0 z-30 border-b border-navy-800/80 bg-navy-900/95 backdrop-blur-md px-5 sm:px-8 py-3.5 shadow-2xs">
         <div className="mx-auto flex max-w-6xl items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-xl shadow-2xs">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-navy-800 border border-navy-700/70 text-xl shadow-2xs">
               {logoEmoji}
             </span>
             <div>
-              <span className="text-base font-black tracking-tight text-slate-950 block leading-tight">
+              <span className="text-base font-black tracking-tight text-white block leading-tight">
                 {team.name}
               </span>
-              <span className="text-[10px] text-slate-400 font-mono">
+              <span className="text-[10px] text-gold-400 font-mono">
                 {team.subdomain}.squadbase.nl
               </span>
             </div>
@@ -107,19 +108,19 @@ export default async function TeamPage({
           <div className="flex items-center gap-3">
             <a
               href="#selectie"
-              className="hidden sm:inline-block text-xs font-semibold text-slate-600 hover:text-slate-900 transition px-2 py-1"
+              className="hidden sm:inline-block text-xs font-semibold text-slate-300 hover:text-white transition px-2 py-1"
             >
               Selectie
             </a>
             <a
               href="#info"
-              className="hidden sm:inline-block text-xs font-semibold text-slate-600 hover:text-slate-900 transition px-2 py-1"
+              className="hidden sm:inline-block text-xs font-semibold text-slate-300 hover:text-white transition px-2 py-1"
             >
               Team Info
             </a>
             <a
               href={appUrl()}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-3.5 py-1.5 text-xs font-bold text-slate-700 shadow-2xs hover:bg-slate-50 hover:border-slate-400 transition"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-gold-500/30 bg-navy-800 px-3.5 py-1.5 text-xs font-bold text-gold-300 shadow-2xs hover:bg-navy-700 hover:border-gold-500/60 transition"
             >
               <span>Inloggen / Team CMS</span>
               <span aria-hidden>&rarr;</span>
@@ -132,7 +133,7 @@ export default async function TeamPage({
       <section
         className="relative px-6 py-16 sm:py-24 text-white overflow-hidden"
         style={{
-          background: `linear-gradient(135deg, ${primaryColor} 0%, #0f172a 100%)`,
+          background: `linear-gradient(135deg, ${primaryColor} 0%, #071324 100%)`,
         }}
       >
         <div className="absolute inset-0 bg-[radial-gradient(#ffffff15_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none opacity-40" />
@@ -160,19 +161,19 @@ export default async function TeamPage({
 
             {/* Quick Stat Chips */}
             <div className="flex flex-wrap items-center gap-2.5 pt-2">
-              <div className="inline-flex items-center gap-1.5 rounded-xl bg-black/25 backdrop-blur-xs px-3 py-1.5 text-xs font-bold text-white border border-white/10">
+              <div className="inline-flex items-center gap-1.5 rounded-xl bg-black/40 backdrop-blur-xs px-3 py-1.5 text-xs font-bold text-white border border-white/15">
                 <span>👥</span>
                 <span>{squad.length} {squad.length === 1 ? "Speler" : "Spelers"}</span>
               </div>
 
               {homeGround && (
-                <div className="inline-flex items-center gap-1.5 rounded-xl bg-black/25 backdrop-blur-xs px-3 py-1.5 text-xs font-bold text-white border border-white/10">
+                <div className="inline-flex items-center gap-1.5 rounded-xl bg-black/40 backdrop-blur-xs px-3 py-1.5 text-xs font-bold text-white border border-white/15">
                   <span>📍</span>
                   <span>{homeGround}</span>
                 </div>
               )}
 
-              <div className="inline-flex items-center gap-1.5 rounded-xl bg-black/25 backdrop-blur-xs px-3 py-1.5 text-xs font-bold text-white border border-white/10">
+              <div className="inline-flex items-center gap-1.5 rounded-xl bg-black/40 backdrop-blur-xs px-3 py-1.5 text-xs font-bold text-white border border-white/15">
                 <span>🏆</span>
                 <span>Seizoen 2026/2027</span>
               </div>
@@ -185,16 +186,16 @@ export default async function TeamPage({
       <main className="flex-1 mx-auto max-w-6xl px-4 sm:px-6 py-10 space-y-12 w-full">
         {/* Module: Selectie & Spelers */}
         <section id="selectie" className="space-y-6">
-          <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+          <div className="flex items-center justify-between border-b border-navy-800 pb-4">
             <div>
-              <h2 className="text-xl font-bold tracking-tight text-slate-900">
+              <h2 className="text-xl font-bold tracking-tight text-white">
                 Selectie & Spelers
               </h2>
-              <p className="text-xs text-slate-500 mt-0.5">
+              <p className="text-xs text-slate-400 mt-0.5">
                 Spelers en stafleden van {team.name}
               </p>
             </div>
-            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">
+            <span className="rounded-full bg-navy-900 border border-navy-800 px-3 py-1 text-xs font-bold text-gold-400">
               {squad.length} Spelers
             </span>
           </div>
@@ -204,7 +205,7 @@ export default async function TeamPage({
               {squad.map((p) => (
                 <div
                   key={p.id}
-                  className="rounded-2xl bg-white p-4 shadow-2xs ring-1 ring-slate-200/80 hover:shadow-md transition-shadow flex items-center justify-between gap-3"
+                  className="rounded-2xl bg-navy-900/90 border border-navy-800/90 p-4 shadow-sm hover:border-gold-500/40 transition flex items-center justify-between gap-3"
                 >
                   <div className="flex items-center gap-3">
                     <div
@@ -214,17 +215,17 @@ export default async function TeamPage({
                       {p.jerseyNumber !== null ? p.jerseyNumber : "—"}
                     </div>
                     <div>
-                      <h3 className="font-bold text-slate-900 text-sm leading-tight">
+                      <h3 className="font-bold text-white text-sm leading-tight">
                         {p.name}
                       </h3>
-                      <span className="text-[11px] text-slate-500 block mt-0.5">
+                      <span className="text-[11px] text-slate-400 block mt-0.5">
                         {p.position}
                       </span>
                     </div>
                   </div>
 
                   {p.role !== "Speler" && (
-                    <span className="shrink-0 rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-700">
+                    <span className="shrink-0 rounded-full bg-navy-800 border border-navy-700 px-2 py-0.5 text-[10px] font-bold text-gold-300">
                       {p.role === "Aanvoerder" ? "© Aanvoerder" : p.role}
                     </span>
                   )}
@@ -232,12 +233,12 @@ export default async function TeamPage({
               ))}
             </div>
           ) : (
-            <div className="rounded-2xl border-2 border-dashed border-slate-200 bg-white p-10 text-center space-y-2">
+            <div className="rounded-2xl border-2 border-dashed border-navy-800 bg-navy-900/40 p-10 text-center space-y-2">
               <span className="text-3xl">👥</span>
-              <h3 className="text-sm font-bold text-slate-800">
+              <h3 className="text-sm font-bold text-slate-200">
                 Selectie wordt binnenkort bekendgemaakt
               </h3>
-              <p className="text-xs text-slate-500 max-w-sm mx-auto">
+              <p className="text-xs text-slate-400 max-w-sm mx-auto">
                 De teammanager kan via het Team CMS eenvoudig spelers toevoegen en rugnummers toewijzen.
               </p>
             </div>
@@ -245,13 +246,13 @@ export default async function TeamPage({
         </section>
 
         {/* Module: Team Informatie */}
-        <section id="info" className="rounded-3xl bg-white p-6 sm:p-8 shadow-2xs ring-1 ring-slate-200/80 space-y-4">
-          <h2 className="text-lg font-bold text-slate-900">
+        <section id="info" className="rounded-3xl bg-navy-900/90 border border-navy-800/90 p-6 sm:p-8 shadow-sm space-y-4">
+          <h2 className="text-lg font-bold text-white">
             Over {team.name}
           </h2>
-          <div className="grid sm:grid-cols-2 gap-6 text-xs text-slate-600 leading-relaxed">
+          <div className="grid sm:grid-cols-2 gap-6 text-xs text-slate-300 leading-relaxed">
             <div className="space-y-2">
-              <span className="font-bold uppercase tracking-wider text-slate-400 block text-[10px]">
+              <span className="font-bold uppercase tracking-wider text-gold-400/90 block text-[10px]">
                 Locatie & Wedstrijden
               </span>
               <p>
@@ -261,7 +262,7 @@ export default async function TeamPage({
               </p>
             </div>
             <div className="space-y-2">
-              <span className="font-bold uppercase tracking-wider text-slate-400 block text-[10px]">
+              <span className="font-bold uppercase tracking-wider text-gold-400/90 block text-[10px]">
                 Team Beheer
               </span>
               <p>
@@ -269,7 +270,7 @@ export default async function TeamPage({
               </p>
               <a
                 href={appUrl()}
-                className="inline-flex items-center gap-1 font-bold text-emerald-700 hover:text-emerald-800 transition"
+                className="inline-flex items-center gap-1 font-bold text-gold-400 hover:text-gold-300 transition"
               >
                 <span>Naar Team CMS</span>
                 <span>&rarr;</span>
@@ -280,16 +281,17 @@ export default async function TeamPage({
       </main>
 
       {/* 4. Footer */}
-      <footer className="border-t border-slate-200 bg-white py-6 px-6 text-center text-xs text-slate-400">
-        <p>
-          &copy; {new Date().getFullYear()} {team.name} · Powered by{" "}
+      <footer className="border-t border-navy-800/80 bg-navy-950 py-6 px-6 text-center text-xs text-slate-400">
+        <p className="inline-flex items-center justify-center gap-1.5 flex-wrap">
+          <span>&copy; {new Date().getFullYear()} {team.name} · Powered by</span>
           <a
             href={process.env.NODE_ENV === "production" ? "https://squadbase.nl" : "http://localhost:3000"}
             target="_blank"
             rel="noreferrer"
-            className="font-bold text-slate-700 hover:text-emerald-600 transition"
+            className="inline-flex items-center gap-1 font-bold text-white hover:text-gold-400 transition"
           >
-            Squadbase.nl
+            <Image src="/logo.png" alt="Squadbase" width={14} height={14} className="object-contain inline" />
+            <span>Squadbase.nl</span>
           </a>
         </p>
       </footer>

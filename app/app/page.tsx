@@ -7,6 +7,8 @@ import { getSessionUser } from "@/lib/session";
 import { logout } from "./login/actions";
 import { adminUrl } from "@/lib/auth";
 import { TeamCmsView } from "./team-cms-view";
+import { SquadbaseLogo } from "@/components/squadbase-logo";
+import Image from "next/image";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
@@ -49,19 +51,19 @@ export default async function TeamAdminDashboard() {
   // If no team is assigned to this user
   if (!team) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center p-6 bg-slate-50 text-center">
-        <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-500 text-2xl">
-            ⚽
+      <main className="flex min-h-screen flex-col items-center justify-center p-6 bg-navy-950 text-center text-slate-100">
+        <div className="w-full max-w-md rounded-2xl bg-navy-900 border border-navy-800 p-8 shadow-2xl">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-navy-950 border border-navy-800 p-2 shadow-xs">
+            <SquadbaseLogo size="md" variant="light" />
           </div>
-          <h1 className="mt-4 text-xl font-bold text-slate-900">Geen team gekoppeld</h1>
-          <p className="mt-2 text-sm text-slate-600">
-            Ingelogd als <strong className="text-slate-800">{user.email}</strong>. Er is nog geen team aan je account gekoppeld door de platformbeheerder.
+          <h1 className="mt-4 text-xl font-bold text-white">Geen team gekoppeld</h1>
+          <p className="mt-2 text-sm text-slate-400">
+            Ingelogd als <strong className="text-slate-200">{user.email}</strong>. Er is nog geen team aan je account gekoppeld door de platformbeheerder.
           </p>
           <form action={logout} className="mt-6">
             <button
               type="submit"
-              className="rounded-xl bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-200"
+              className="rounded-xl bg-navy-800 border border-navy-700 px-4 py-2 text-sm font-semibold text-slate-300 hover:bg-navy-700 hover:text-white transition"
             >
               Uitloggen
             </button>
@@ -74,23 +76,23 @@ export default async function TeamAdminDashboard() {
   // If team is archived / inactive
   if (!team.isActive) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center p-6 bg-slate-50 text-center">
-        <div className="w-full max-w-md rounded-3xl bg-white p-8 shadow-md ring-1 ring-slate-200">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-100 text-amber-800 text-3xl font-bold">
+      <main className="flex min-h-screen flex-col items-center justify-center p-6 bg-navy-950 text-center text-slate-100">
+        <div className="w-full max-w-md rounded-3xl bg-navy-900 border border-navy-800 p-8 shadow-2xl">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-950/80 border border-amber-700/50 text-amber-300 text-3xl font-bold">
             📦
           </div>
-          <h1 className="mt-4 text-xl font-bold text-slate-900">Team is Gearchiveerd</h1>
-          <p className="mt-2 text-sm text-slate-600">
-            Het team <strong className="text-slate-900">{team.name}</strong> is momenteel gedeactiveerd of in het archief geplaatst door de platformbeheerder.
+          <h1 className="mt-4 text-xl font-bold text-white">Team is Gearchiveerd</h1>
+          <p className="mt-2 text-sm text-slate-400">
+            Het team <strong className="text-white">{team.name}</strong> is momenteel gedeactiveerd of in het archief geplaatst door de platformbeheerder.
           </p>
-          <div className="mt-4 rounded-xl bg-amber-50 p-3 text-xs text-amber-900 border border-amber-200 text-left space-y-1">
+          <div className="mt-4 rounded-xl bg-amber-950/50 p-3 text-xs text-amber-200 border border-amber-800/60 text-left space-y-1">
             <p>• De openbare website en het CMS zijn tijdelijk uitgeschakeld.</p>
             <p>• Alle teamdata en kasboeken blijven veilig bewaard.</p>
           </div>
           <form action={logout} className="mt-6">
             <button
               type="submit"
-              className="rounded-xl bg-slate-100 px-5 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-200 transition"
+              className="rounded-xl bg-navy-800 border border-navy-700 px-5 py-2.5 text-sm font-semibold text-slate-300 hover:bg-navy-700 hover:text-white transition"
             >
               Uitloggen
             </button>
@@ -125,28 +127,26 @@ export default async function TeamAdminDashboard() {
       : `http://${team.subdomain}.localhost:3000`;
 
   return (
-    <div className="min-h-screen bg-slate-100/70 pb-12">
+    <div className="min-h-screen bg-navy-950 text-slate-100 pb-12">
       {/* Top Navbar */}
-      <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/95 backdrop-blur-xs px-5 sm:px-8 py-3 shadow-2xs">
+      <header className="sticky top-0 z-10 border-b border-navy-800/80 bg-navy-900/95 backdrop-blur-md px-5 sm:px-8 py-3 shadow-sm">
         <div className="mx-auto flex max-w-6xl items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-lg font-black tracking-tight text-emerald-950">
-              ⚽ SQUADBASE
-            </span>
-            <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-800">
+            <SquadbaseLogo size="sm" variant="light" />
+            <span className="rounded-full border border-gold-500/30 bg-gold-500/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-gold-300">
               Team Beheer
             </span>
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="hidden text-xs text-slate-500 md:inline">
-              Coach: <strong className="text-slate-800">{user.name}</strong> ({user.email})
+            <span className="hidden text-xs text-slate-400 md:inline">
+              Coach: <strong className="text-slate-200">{user.name}</strong> ({user.email})
             </span>
             <a
               href={teamUrl}
               target="_blank"
               rel="noreferrer"
-              className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition inline-flex items-center gap-1"
+              className="rounded-lg border border-navy-700 bg-navy-800/90 px-3 py-1.5 text-xs font-semibold text-slate-200 hover:bg-navy-700 hover:border-gold-500/40 hover:text-white transition inline-flex items-center gap-1"
             >
               <span>Teampagina</span>
               <span>&rarr;</span>
@@ -154,7 +154,7 @@ export default async function TeamAdminDashboard() {
             <form action={logout}>
               <button
                 type="submit"
-                className="rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-200 hover:text-slate-900 transition"
+                className="rounded-lg bg-navy-800/80 px-3 py-1.5 text-xs font-semibold text-slate-300 hover:bg-navy-700 hover:text-white border border-navy-700/60 transition"
               >
                 Uitloggen
               </button>

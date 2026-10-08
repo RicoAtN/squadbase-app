@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useActionState } from "react";
+import Image from "next/image";
 import {
   updateTeam,
   type UpdateTeamState,
@@ -38,7 +39,7 @@ export type AdminUserItem = {
 };
 
 const inputStyle =
-  "mt-1.5 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-900 shadow-2xs focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-200 transition";
+  "mt-1.5 w-full rounded-xl border border-navy-700 bg-navy-950 px-3.5 py-2 text-sm text-white placeholder:text-slate-500 shadow-2xs focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/20 transition";
 
 export function AdminDashboardView({
   teams,
@@ -89,11 +90,11 @@ export function AdminDashboardView({
   return (
     <div className="w-full">
       {/* Main Tabbed Card Container */}
-      <div className="w-full rounded-2xl bg-white shadow-xs ring-1 ring-slate-200/80 overflow-hidden">
+      <div className="w-full rounded-2xl bg-navy-900/90 shadow-md border border-navy-800/80 overflow-hidden">
         {/* Card Header with Tabs, Search, and Action */}
-        <div className="border-b border-slate-200 px-5 py-3.5 flex flex-wrap items-center justify-between gap-3 bg-white">
+        <div className="border-b border-navy-800/80 px-5 py-3.5 flex flex-wrap items-center justify-between gap-3 bg-navy-900/95">
           {/* Segmented Tab Switcher */}
-          <div className="inline-flex items-center rounded-xl bg-slate-100 p-1">
+          <div className="inline-flex items-center rounded-xl bg-navy-950/80 border border-navy-800/60 p-1">
             <button
               onClick={() => {
                 setActiveTab("active-teams");
@@ -101,16 +102,16 @@ export function AdminDashboardView({
               }}
               className={`inline-flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-bold transition ${
                 activeTab === "active-teams"
-                  ? "bg-white text-emerald-800 shadow-xs"
-                  : "text-slate-600 hover:text-slate-900"
+                  ? "bg-navy-800 text-white shadow-xs border border-navy-700/80"
+                  : "text-slate-400 hover:text-white"
               }`}
             >
-              <span>⚽ Actieve Teams</span>
+              <span className="inline-flex items-center gap-1.5"><Image src="/logo.png" alt="" width={14} height={14} className="inline object-contain" /> Actieve Teams</span>
               <span
                 className={`rounded-full px-2 py-0.2 text-[11px] font-black ${
                   activeTab === "active-teams"
-                    ? "bg-emerald-100 text-emerald-800"
-                    : "bg-slate-200/70 text-slate-600"
+                    ? "bg-navy-700 text-gold-300"
+                    : "bg-navy-900 text-slate-400"
                 }`}
               >
                 {activeTeams.length}
@@ -124,16 +125,16 @@ export function AdminDashboardView({
               }}
               className={`inline-flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-bold transition ${
                 activeTab === "users"
-                  ? "bg-white text-emerald-800 shadow-xs"
-                  : "text-slate-600 hover:text-slate-900"
+                  ? "bg-navy-800 text-white shadow-xs border border-navy-700/80"
+                  : "text-slate-400 hover:text-white"
               }`}
             >
               <span>👥 Platform Gebruikers</span>
               <span
                 className={`rounded-full px-2 py-0.2 text-[11px] font-black ${
                   activeTab === "users"
-                    ? "bg-emerald-100 text-emerald-800"
-                    : "bg-slate-200/70 text-slate-600"
+                    ? "bg-navy-700 text-gold-300"
+                    : "bg-navy-900 text-slate-400"
                 }`}
               >
                 {users.length}
@@ -147,16 +148,16 @@ export function AdminDashboardView({
               }}
               className={`inline-flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-bold transition ${
                 activeTab === "archive"
-                  ? "bg-white text-amber-800 shadow-xs"
-                  : "text-slate-600 hover:text-slate-900"
+                  ? "bg-navy-800 text-amber-300 shadow-xs border border-navy-700/80"
+                  : "text-slate-400 hover:text-white"
               }`}
             >
               <span>📦 Archief</span>
               <span
                 className={`rounded-full px-2 py-0.2 text-[11px] font-black ${
                   activeTab === "archive"
-                    ? "bg-amber-100 text-amber-900"
-                    : "bg-slate-200/70 text-slate-600"
+                    ? "bg-amber-950/80 text-amber-300 border border-amber-800/60"
+                    : "bg-navy-900 text-slate-400"
                 }`}
               >
                 {archivedTeams.length}
@@ -178,12 +179,12 @@ export function AdminDashboardView({
                     ? "Zoek in archief..."
                     : "Zoek gebruiker of team..."
                 }
-                className="w-44 sm:w-56 rounded-xl border border-slate-200 bg-slate-50/75 px-3 py-1.5 text-xs text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600 transition"
+                className="w-44 sm:w-56 rounded-xl border border-navy-700 bg-navy-950 px-3 py-1.5 text-xs text-white placeholder:text-slate-500 focus:border-gold-500 focus:outline-none focus:ring-1 focus:ring-gold-500/20 transition"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery("")}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-600"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-white"
                 >
                   ✕
                 </button>
@@ -193,7 +194,7 @@ export function AdminDashboardView({
             {activeTab === "active-teams" && (
               <button
                 onClick={() => setIsCreating(true)}
-                className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-600 px-3.5 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-emerald-700 transition shrink-0"
+                className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-gold-500 to-gold-400 px-3.5 py-1.5 text-xs font-black text-navy-950 shadow-md hover:from-gold-400 hover:to-gold-300 transition shrink-0"
               >
                 <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
@@ -209,7 +210,7 @@ export function AdminDashboardView({
           <div className="w-full overflow-x-auto">
             <table className="w-full text-left text-sm border-collapse">
               <thead>
-                <tr className="border-b border-slate-200 bg-slate-50/75 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                <tr className="border-b border-navy-800 bg-navy-950/70 text-[11px] font-bold uppercase tracking-wider text-slate-400">
                   <th className="px-5 py-3">Team</th>
                   <th className="px-5 py-3">Subdomein</th>
                   <th className="px-5 py-3">Manager</th>
@@ -217,7 +218,7 @@ export function AdminDashboardView({
                   <th className="px-5 py-3 text-right">Acties</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 bg-white text-slate-700">
+              <tbody className="divide-y divide-navy-800/60 bg-transparent text-slate-200">
                 {filteredActiveTeams.map((t) => {
                   const teamUrl =
                     process.env.NODE_ENV === "production"
@@ -227,16 +228,16 @@ export function AdminDashboardView({
                   return (
                     <tr
                       key={t.id}
-                      className="hover:bg-slate-50/80 transition-colors"
+                      className="hover:bg-navy-800/40 transition-colors"
                     >
                       {/* Team Name */}
                       <td className="px-5 py-3 whitespace-nowrap">
                         <div className="flex items-center gap-2.5">
-                          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-600 to-emerald-800 font-black text-xs text-white shadow-2xs">
+                          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-navy-800 to-navy-950 ring-1 ring-gold-500/30 font-black text-xs text-gold-300 shadow-2xs">
                             {t.name.charAt(0).toUpperCase()}
                           </div>
                           <div>
-                            <span className="font-bold text-slate-900 block leading-tight text-sm">
+                            <span className="font-bold text-white block leading-tight text-sm">
                               {t.name}
                             </span>
                             <span className="text-[10px] text-slate-400">
@@ -252,9 +253,9 @@ export function AdminDashboardView({
                           href={teamUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1 rounded-md bg-slate-50 border border-slate-200 px-2 py-0.5 text-xs font-medium text-slate-700 hover:bg-emerald-50 hover:text-emerald-800 hover:border-emerald-300 transition"
+                          className="inline-flex items-center gap-1 rounded-md bg-navy-950 border border-navy-700/80 px-2 py-0.5 text-xs font-medium text-slate-200 hover:border-gold-500/40 transition"
                         >
-                          <span className="font-mono text-xs font-bold text-emerald-700">
+                          <span className="font-mono text-xs font-bold text-gold-300">
                             {t.subdomain}
                           </span>
                           <span className="text-slate-400 text-xs">.squadbase.nl</span>
@@ -268,7 +269,7 @@ export function AdminDashboardView({
                       <td className="px-5 py-3 whitespace-nowrap">
                         {t.managerEmail ? (
                           <div>
-                            <div className="font-semibold text-slate-900 leading-tight text-xs">
+                            <div className="font-semibold text-white leading-tight text-xs">
                               {t.managerName}
                             </div>
                             <div className="text-[11px] text-slate-400">
@@ -276,14 +277,14 @@ export function AdminDashboardView({
                             </div>
                           </div>
                         ) : (
-                          <span className="text-xs text-slate-400 italic">Geen manager</span>
+                          <span className="text-xs text-slate-500 italic">Geen manager</span>
                         )}
                       </td>
 
                       {/* Status Badge */}
                       <td className="px-5 py-3 whitespace-nowrap">
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-bold text-emerald-800 border border-emerald-200/70">
-                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-950/60 px-2.5 py-0.5 text-xs font-bold text-emerald-300 border border-emerald-800/80">
+                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
                           Live in Productie
                         </span>
                       </td>
@@ -294,7 +295,7 @@ export function AdminDashboardView({
                           {t.managerEmail && (
                             <button
                               onClick={() => setInvitingTeam(t)}
-                              className="inline-flex items-center gap-1 rounded-lg border border-blue-200 bg-blue-50/60 px-2.5 py-1 text-xs font-bold text-blue-700 shadow-2xs hover:bg-blue-100 hover:border-blue-300 transition"
+                              className="inline-flex items-center gap-1 rounded-lg border border-blue-900/60 bg-blue-950/40 px-2.5 py-1 text-xs font-bold text-blue-300 shadow-2xs hover:bg-blue-900/60 transition"
                               title="Stuur / genereer inloglink voor de coach"
                             >
                               <span>📨</span>
@@ -304,9 +305,9 @@ export function AdminDashboardView({
 
                           <button
                             onClick={() => setEditingTeam(t)}
-                            className="inline-flex items-center gap-1 rounded-lg border border-slate-300 bg-white px-2.5 py-1 text-xs font-bold text-slate-700 shadow-2xs hover:bg-slate-50 hover:border-slate-400 hover:text-slate-900 transition"
+                            className="inline-flex items-center gap-1 rounded-lg border border-navy-700 bg-navy-800/80 px-2.5 py-1 text-xs font-bold text-slate-200 shadow-2xs hover:bg-navy-700 hover:text-white transition"
                           >
-                            <svg className="h-3 w-3 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="h-3 w-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                             </svg>
                             Bewerken
@@ -314,7 +315,7 @@ export function AdminDashboardView({
 
                           <button
                             onClick={() => setArchivingTeam(t)}
-                            className="inline-flex items-center gap-1 rounded-lg border border-amber-300/80 bg-amber-50/60 px-2.5 py-1 text-xs font-bold text-amber-800 shadow-2xs hover:bg-amber-100 hover:border-amber-400 transition"
+                            className="inline-flex items-center gap-1 rounded-lg border border-amber-900/60 bg-amber-950/40 px-2.5 py-1 text-xs font-bold text-amber-300 shadow-2xs hover:bg-amber-900/60 transition"
                             title="Verplaats naar Archief"
                           >
                             <span>📦</span>
@@ -325,7 +326,7 @@ export function AdminDashboardView({
                             href={teamUrl}
                             target="_blank"
                             rel="noreferrer"
-                            className="inline-flex items-center gap-1 rounded-lg bg-emerald-50 border border-emerald-200 px-2.5 py-1 text-xs font-bold text-emerald-800 shadow-2xs hover:bg-emerald-100 hover:border-emerald-300 transition"
+                            className="inline-flex items-center gap-1 rounded-lg bg-navy-800 border border-navy-700 px-2.5 py-1 text-xs font-bold text-slate-200 shadow-2xs hover:bg-navy-750 hover:text-white transition"
                           >
                             Teampagina
                             <span aria-hidden>&rarr;</span>
@@ -338,7 +339,7 @@ export function AdminDashboardView({
 
                 {filteredActiveTeams.length === 0 && (
                   <tr>
-                    <td colSpan={5} className="px-6 py-8 text-center text-slate-500 text-xs">
+                    <td colSpan={5} className="px-6 py-8 text-center text-slate-400 text-xs">
                       {searchQuery ? "Geen actieve teams gevonden met deze zoekopdracht." : "Nog geen actieve teams aangemaakt."}
                     </td>
                   </tr>
@@ -353,7 +354,7 @@ export function AdminDashboardView({
           <div className="w-full overflow-x-auto">
             <table className="w-full text-left text-sm border-collapse">
               <thead>
-                <tr className="border-b border-slate-200 bg-slate-50/75 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                <tr className="border-b border-navy-800 bg-navy-950/70 text-[11px] font-bold uppercase tracking-wider text-slate-400">
                   <th className="px-5 py-3">Naam</th>
                   <th className="px-5 py-3">E-mail</th>
                   <th className="px-5 py-3">Platform Rol</th>
@@ -361,7 +362,7 @@ export function AdminDashboardView({
                   <th className="px-5 py-3 text-right">Acties</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 bg-white text-slate-700">
+              <tbody className="divide-y divide-navy-800/60 bg-transparent text-slate-200">
                 {filteredUsers.map((u) => {
                   const isSelf = u.id === currentUserId;
                   const teamUrl = u.teamSubdomain
@@ -371,20 +372,20 @@ export function AdminDashboardView({
                     : null;
 
                   return (
-                    <tr key={u.id} className="hover:bg-slate-50/80 transition-colors">
-                      <td className="px-5 py-3 font-semibold text-slate-900 whitespace-nowrap text-xs">
+                    <tr key={u.id} className="hover:bg-navy-800/40 transition-colors">
+                      <td className="px-5 py-3 font-semibold text-white whitespace-nowrap text-xs">
                         {u.name ?? "—"}
                       </td>
-                      <td className="px-5 py-3 text-slate-600 whitespace-nowrap font-mono text-xs">
+                      <td className="px-5 py-3 text-slate-400 whitespace-nowrap font-mono text-xs">
                         {u.email}
                       </td>
                       <td className="px-5 py-3 whitespace-nowrap">
                         {u.globalRole === "superadmin" ? (
-                          <span className="inline-flex items-center rounded-full bg-purple-50 px-2 py-0.5 text-[11px] font-bold text-purple-800 border border-purple-200/80">
+                          <span className="inline-flex items-center rounded-full bg-purple-950/60 px-2 py-0.5 text-[11px] font-bold text-purple-300 border border-purple-800/80">
                             Super Admin
                           </span>
                         ) : (
-                          <span className="inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-700">
+                          <span className="inline-flex items-center rounded-full bg-navy-800 px-2 py-0.5 text-[11px] font-medium text-slate-300 border border-navy-700">
                             Team Beheerder
                           </span>
                         )}
@@ -395,10 +396,10 @@ export function AdminDashboardView({
                             href={teamUrl ?? "#"}
                             target={teamUrl ? "_blank" : undefined}
                             rel="noreferrer"
-                            className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-50/80 border border-emerald-200/80 px-2.5 py-0.5 text-xs font-semibold text-emerald-900 hover:bg-emerald-100 transition"
+                            className="inline-flex items-center gap-1.5 rounded-lg bg-navy-950 border border-navy-800 px-2.5 py-0.5 text-xs font-semibold text-slate-200 hover:border-gold-500/40 transition"
                           >
-                            <span>⚽ {u.teamName}</span>
-                            <span className="text-[10px] text-emerald-600 uppercase font-bold">
+                            <span className="inline-flex items-center gap-1"><Image src="/logo.png" alt="" width={12} height={12} className="inline object-contain" /> {u.teamName}</span>
+                            <span className="text-[10px] text-gold-400 uppercase font-bold">
                               ({u.teamRole === "manager" ? "Coach" : "Speler"})
                             </span>
                           </a>
@@ -407,14 +408,14 @@ export function AdminDashboardView({
                             — (Platform Beheerder)
                           </span>
                         ) : (
-                          <span className="text-xs text-slate-400 italic">Geen team</span>
+                          <span className="text-xs text-slate-500 italic">Geen team</span>
                         )}
                       </td>
                       <td className="px-5 py-3 text-right whitespace-nowrap">
                         <div className="inline-flex items-center gap-1.5">
                           <button
                             onClick={() => setInvitingUser(u)}
-                            className="inline-flex items-center gap-1 rounded-lg border border-blue-200 bg-blue-50/60 px-2.5 py-1 text-xs font-bold text-blue-700 shadow-2xs hover:bg-blue-100 hover:border-blue-300 transition"
+                            className="inline-flex items-center gap-1 rounded-lg border border-blue-900/60 bg-blue-950/40 px-2.5 py-1 text-xs font-bold text-blue-300 shadow-2xs hover:bg-blue-900/60 transition"
                             title="Stuur inloglink naar deze gebruiker"
                           >
                             <span>📨</span>
@@ -422,16 +423,16 @@ export function AdminDashboardView({
                           </button>
 
                           {isSelf ? (
-                            <span className="rounded-md bg-slate-100 px-2 py-1 text-[11px] font-medium text-slate-500">
+                            <span className="rounded-md bg-navy-800 px-2 py-1 text-[11px] font-medium text-slate-400 border border-navy-700">
                               Jouw account
                             </span>
                           ) : (
                             <button
                               onClick={() => setDeletingUser(u)}
-                              className="inline-flex items-center gap-1 rounded-lg border border-red-200 bg-red-50/50 px-2.5 py-1 text-xs font-bold text-red-700 shadow-2xs hover:bg-red-100 hover:border-red-300 transition"
+                              className="inline-flex items-center gap-1 rounded-lg border border-red-900/60 bg-red-950/40 px-2.5 py-1 text-xs font-bold text-red-300 shadow-2xs hover:bg-red-900/60 transition"
                               title="Gebruiker Verwijderen"
                             >
-                              <svg className="h-3 w-3 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <svg className="h-3 w-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                               </svg>
                               Verwijderen
@@ -445,7 +446,7 @@ export function AdminDashboardView({
 
                 {filteredUsers.length === 0 && (
                   <tr>
-                    <td colSpan={5} className="px-6 py-8 text-center text-slate-500 text-xs">
+                    <td colSpan={5} className="px-6 py-8 text-center text-slate-400 text-xs">
                       {searchQuery ? "Geen gebruikers gevonden met deze zoekopdracht." : "Geen gebruikers geregistreerd."}
                     </td>
                   </tr>
@@ -460,7 +461,7 @@ export function AdminDashboardView({
           <div className="w-full overflow-x-auto">
             <table className="w-full text-left text-sm border-collapse">
               <thead>
-                <tr className="border-b border-slate-200 bg-amber-50/50 text-[11px] font-bold uppercase tracking-wider text-amber-800">
+                <tr className="border-b border-navy-800 bg-amber-950/40 text-[11px] font-bold uppercase tracking-wider text-amber-300">
                   <th className="px-5 py-3">Gearchiveerd Team</th>
                   <th className="px-5 py-3">Subdomein</th>
                   <th className="px-5 py-3">Manager</th>
@@ -468,20 +469,20 @@ export function AdminDashboardView({
                   <th className="px-5 py-3 text-right">Herstellen & Verwijderen</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 bg-white text-slate-700">
+              <tbody className="divide-y divide-navy-800/60 bg-transparent text-slate-200">
                 {filteredArchivedTeams.map((t) => (
                   <tr
                     key={t.id}
-                    className="hover:bg-amber-50/40 transition-colors opacity-90"
+                    className="hover:bg-amber-950/20 transition-colors opacity-90"
                   >
                     {/* Team Name */}
                     <td className="px-5 py-3 whitespace-nowrap">
                       <div className="flex items-center gap-2.5">
-                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-200 text-slate-600 font-bold text-xs">
+                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-navy-800 text-slate-400 border border-navy-700 font-bold text-xs">
                           📦
                         </div>
                         <div>
-                          <span className="font-bold text-slate-800 block leading-tight text-sm">
+                          <span className="font-bold text-white block leading-tight text-sm">
                             {t.name}
                           </span>
                           <span className="text-[10px] text-slate-400">
@@ -493,7 +494,7 @@ export function AdminDashboardView({
 
                     {/* Subdomain */}
                     <td className="px-5 py-3 whitespace-nowrap">
-                      <span className="font-mono text-xs text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200 line-through">
+                      <span className="font-mono text-xs text-slate-400 bg-navy-950 px-2 py-0.5 rounded-md border border-navy-800 line-through">
                         {t.subdomain}.squadbase.nl
                       </span>
                     </td>
@@ -502,7 +503,7 @@ export function AdminDashboardView({
                     <td className="px-5 py-3 whitespace-nowrap">
                       {t.managerEmail ? (
                         <div>
-                          <div className="font-semibold text-slate-700 leading-tight text-xs">
+                          <div className="font-semibold text-white leading-tight text-xs">
                             {t.managerName}
                           </div>
                           <div className="text-[11px] text-slate-400">
@@ -510,13 +511,13 @@ export function AdminDashboardView({
                           </div>
                         </div>
                       ) : (
-                        <span className="text-xs text-slate-400 italic">Geen manager</span>
+                        <span className="text-xs text-slate-500 italic">Geen manager</span>
                       )}
                     </td>
 
                     {/* Status Badge */}
                     <td className="px-5 py-3 whitespace-nowrap">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-bold text-amber-800 border border-amber-200">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-amber-950/60 px-2.5 py-0.5 text-xs font-bold text-amber-300 border border-amber-800/60">
                         📦 Inactief (Offline)
                       </span>
                     </td>
@@ -526,7 +527,7 @@ export function AdminDashboardView({
                       <div className="inline-flex items-center gap-1.5">
                         <button
                           onClick={() => setRestoringTeam(t)}
-                          className="inline-flex items-center gap-1 rounded-lg border border-emerald-300 bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-800 shadow-2xs hover:bg-emerald-100 hover:border-emerald-400 transition"
+                          className="inline-flex items-center gap-1 rounded-lg border border-navy-700 bg-navy-800/80 px-2.5 py-1 text-xs font-bold text-slate-200 shadow-2xs hover:bg-navy-700 hover:text-white transition"
                           title="Zet team weer online"
                         >
                           <span>♻️</span>
@@ -535,10 +536,10 @@ export function AdminDashboardView({
 
                         <button
                           onClick={() => setDeletingTeam(t)}
-                          className="inline-flex items-center gap-1 rounded-lg border border-red-300 bg-red-50 px-2.5 py-1 text-xs font-bold text-red-700 shadow-2xs hover:bg-red-100 hover:border-red-400 transition"
+                          className="inline-flex items-center gap-1 rounded-lg border border-red-900/60 bg-red-950/40 px-2.5 py-1 text-xs font-bold text-red-300 shadow-2xs hover:bg-red-900/60 transition"
                           title="Definitief Verwijderen"
                         >
-                          <svg className="h-3 w-3 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <svg className="h-3 w-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                           </svg>
                           Definitief Verwijderen
@@ -550,7 +551,7 @@ export function AdminDashboardView({
 
                 {filteredArchivedTeams.length === 0 && (
                   <tr>
-                    <td colSpan={5} className="px-6 py-8 text-center text-slate-500 text-xs">
+                    <td colSpan={5} className="px-6 py-8 text-center text-slate-400 text-xs">
                       {searchQuery ? "Geen gearchiveerde teams gevonden met deze zoekopdracht." : "Het archief is momenteel leeg."}
                     </td>
                   </tr>
@@ -640,15 +641,15 @@ function SendTeamInviteModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 animate-in fade-in duration-150">
-      <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl ring-1 ring-slate-200 animate-in zoom-in-95 duration-150">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3.5">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-4 animate-in fade-in duration-150">
+      <div className="w-full max-w-md rounded-3xl bg-navy-900 p-6 shadow-2xl border border-navy-700/80 animate-in zoom-in-95 duration-150">
+        <div className="flex items-center justify-between border-b border-navy-800 pb-3.5">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-100 text-blue-800 font-bold">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-950/80 border border-blue-700/50 text-blue-300 font-bold">
               📨
             </div>
             <div>
-              <h3 className="text-base font-bold text-slate-900">
+              <h3 className="text-base font-bold text-white">
                 Uitnodiging & Inloglink
               </h3>
               <p className="text-xs text-slate-400">
@@ -658,17 +659,17 @@ function SendTeamInviteModal({
           </div>
           <button
             onClick={onClose}
-            className="rounded-xl p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition"
+            className="rounded-xl p-1.5 text-slate-400 hover:bg-navy-800 hover:text-white transition"
           >
             ✕
           </button>
         </div>
 
         <div className="mt-4 space-y-3">
-          <p className="text-xs text-slate-600 leading-relaxed">
-            Stuur een verse, veilige 1-klik inloglink naar <strong className="text-slate-900">{team.managerName}</strong> (<span className="font-mono text-slate-700">{team.managerEmail}</span>) voor het beheren van <strong className="text-slate-900">{team.name}</strong>.
+          <p className="text-xs text-slate-300 leading-relaxed">
+            Stuur een verse, veilige 1-klik inloglink naar <strong className="text-white">{team.managerName}</strong> (<span className="font-mono text-slate-300">{team.managerEmail}</span>) voor het beheren van <strong className="text-white">{team.name}</strong>.
           </p>
-          <div className="rounded-xl bg-blue-50/70 p-2.5 text-[11px] text-blue-900 border border-blue-200/70 flex items-center gap-2">
+          <div className="rounded-xl bg-blue-950/60 p-2.5 text-[11px] text-blue-200 border border-blue-800/80 flex items-center gap-2">
             <span>ℹ️</span>
             <span>De uitnodigingslink is <strong>7 dagen geldig</strong>, zodat de coach rustig de tijd heeft om in te loggen.</span>
           </div>
@@ -681,14 +682,14 @@ function SendTeamInviteModal({
             <div className="space-y-2">
               <div
                 className={`rounded-xl p-3 text-xs font-medium ${
-                  state.ok ? "bg-emerald-50 text-emerald-800 border border-emerald-200" : "bg-red-50 text-red-700 border border-red-200"
+                  state.ok ? "bg-emerald-950/80 text-emerald-300 border border-emerald-800" : "bg-red-950/80 text-red-300 border border-red-800"
                 }`}
               >
                 {state.message}
               </div>
 
               {state.link && (
-                <div className="rounded-xl bg-slate-50 p-3 border border-slate-200 space-y-1.5">
+                <div className="rounded-xl bg-navy-950/90 p-3 border border-navy-800 space-y-1.5">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
                     Directe Inloglink (WhatsApp / Kopiëren)
                   </span>
@@ -696,12 +697,12 @@ function SendTeamInviteModal({
                     <input
                       readOnly
                       value={state.link}
-                      className="w-full font-mono text-[11px] bg-white border border-slate-200 rounded-lg px-2 py-1 text-slate-700 select-all"
+                      className="w-full font-mono text-[11px] bg-navy-900 border border-navy-700 rounded-lg px-2 py-1 text-gold-300 select-all"
                     />
                     <button
                       type="button"
                       onClick={() => copyLink(state.link!)}
-                      className="shrink-0 rounded-lg bg-emerald-600 px-3 py-1 text-xs font-bold text-white hover:bg-emerald-700 transition"
+                      className="shrink-0 rounded-lg bg-gold-500 px-3 py-1 text-xs font-bold text-navy-950 hover:bg-gold-400 transition"
                     >
                       {copied ? "Gekopieerd! ✓" : "Kopieer"}
                     </button>
@@ -711,18 +712,18 @@ function SendTeamInviteModal({
             </div>
           )}
 
-          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-slate-100">
+          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-navy-800">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition"
+              className="rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-400 hover:bg-navy-800 hover:text-white transition"
             >
               Sluiten
             </button>
             <button
               disabled={pending}
               type="submit"
-              className="rounded-xl bg-blue-600 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-blue-700 disabled:opacity-50 transition inline-flex items-center gap-1.5"
+              className="rounded-xl bg-gradient-to-r from-gold-500 to-gold-400 px-4 py-2 text-xs font-bold text-navy-950 shadow-sm hover:brightness-110 disabled:opacity-50 transition inline-flex items-center gap-1.5"
             >
               <span>📨</span>
               <span>{pending ? "Versturen..." : "E-mail Nu Versturen"}</span>
@@ -754,15 +755,15 @@ function SendUserLoginModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 animate-in fade-in duration-150">
-      <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl ring-1 ring-slate-200 animate-in zoom-in-95 duration-150">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3.5">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-4 animate-in fade-in duration-150">
+      <div className="w-full max-w-md rounded-3xl bg-navy-900 p-6 shadow-2xl border border-navy-700/80 animate-in zoom-in-95 duration-150">
+        <div className="flex items-center justify-between border-b border-navy-800 pb-3.5">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-100 text-blue-800 font-bold">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-950/80 border border-blue-700/50 text-blue-300 font-bold">
               📨
             </div>
             <div>
-              <h3 className="text-base font-bold text-slate-900">
+              <h3 className="text-base font-bold text-white">
                 Inloglink Versturen
               </h3>
               <p className="text-xs text-slate-400">
@@ -772,15 +773,15 @@ function SendUserLoginModal({
           </div>
           <button
             onClick={onClose}
-            className="rounded-xl p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition"
+            className="rounded-xl p-1.5 text-slate-400 hover:bg-navy-800 hover:text-white transition"
           >
             ✕
           </button>
         </div>
 
         <div className="mt-4 space-y-3">
-          <p className="text-xs text-slate-600 leading-relaxed">
-            Stuur een eenmalige 1-klik inloglink naar <strong className="text-slate-900">{user.name ?? "Gebruiker"}</strong> (<span className="font-mono text-slate-700">{user.email}</span>).
+          <p className="text-xs text-slate-300 leading-relaxed">
+            Stuur een eenmalige 1-klik inloglink naar <strong className="text-white">{user.name ?? "Gebruiker"}</strong> (<span className="font-mono text-slate-300">{user.email}</span>).
           </p>
         </div>
 
@@ -791,14 +792,14 @@ function SendUserLoginModal({
             <div className="space-y-2">
               <div
                 className={`rounded-xl p-3 text-xs font-medium ${
-                  state.ok ? "bg-emerald-50 text-emerald-800 border border-emerald-200" : "bg-red-50 text-red-700 border border-red-200"
+                  state.ok ? "bg-emerald-950/80 text-emerald-300 border border-emerald-800" : "bg-red-950/80 text-red-300 border border-red-800"
                 }`}
               >
                 {state.message}
               </div>
 
               {state.link && (
-                <div className="rounded-xl bg-slate-50 p-3 border border-slate-200 space-y-1.5">
+                <div className="rounded-xl bg-navy-950/90 p-3 border border-navy-800 space-y-1.5">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
                     Directe Inloglink (WhatsApp / Kopiëren)
                   </span>
@@ -806,12 +807,12 @@ function SendUserLoginModal({
                     <input
                       readOnly
                       value={state.link}
-                      className="w-full font-mono text-[11px] bg-white border border-slate-200 rounded-lg px-2 py-1 text-slate-700 select-all"
+                      className="w-full font-mono text-[11px] bg-navy-900 border border-navy-700 rounded-lg px-2 py-1 text-gold-300 select-all"
                     />
                     <button
                       type="button"
                       onClick={() => copyLink(state.link!)}
-                      className="shrink-0 rounded-lg bg-emerald-600 px-3 py-1 text-xs font-bold text-white hover:bg-emerald-700 transition"
+                      className="shrink-0 rounded-lg bg-gold-500 px-3 py-1 text-xs font-bold text-navy-950 hover:bg-gold-400 transition"
                     >
                       {copied ? "Gekopieerd! ✓" : "Kopieer"}
                     </button>
@@ -821,18 +822,18 @@ function SendUserLoginModal({
             </div>
           )}
 
-          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-slate-100">
+          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-navy-800">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition"
+              className="rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-400 hover:bg-navy-800 hover:text-white transition"
             >
               Sluiten
             </button>
             <button
               disabled={pending}
               type="submit"
-              className="rounded-xl bg-blue-600 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-blue-700 disabled:opacity-50 transition inline-flex items-center gap-1.5"
+              className="rounded-xl bg-gradient-to-r from-gold-500 to-gold-400 px-4 py-2 text-xs font-bold text-navy-950 shadow-sm hover:brightness-110 disabled:opacity-50 transition inline-flex items-center gap-1.5"
             >
               <span>📨</span>
               <span>{pending ? "Versturen..." : "Inloglink Versturen"}</span>
@@ -862,15 +863,15 @@ function CreateTeamModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 animate-in fade-in duration-150">
-      <div className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl ring-1 ring-slate-200 animate-in zoom-in-95 duration-150">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3.5">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-4 animate-in fade-in duration-150">
+      <div className="w-full max-w-lg rounded-3xl bg-navy-900 p-6 shadow-2xl border border-navy-700/80 animate-in zoom-in-95 duration-150">
+        <div className="flex items-center justify-between border-b border-navy-800 pb-3.5">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800 font-bold">
-              ⚽
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-navy-950 p-1.5 text-navy-900 font-bold border border-gold-500/20 shadow-2xs">
+              <Image src="/logo.png" alt="Squadbase" width={22} height={22} className="object-contain" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-slate-900">
+              <h3 className="text-base font-bold text-white">
                 Nieuw Team Aanmaken
               </h3>
               <p className="text-xs text-slate-400">
@@ -880,7 +881,7 @@ function CreateTeamModal({
           </div>
           <button
             onClick={onClose}
-            className="rounded-xl p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition"
+            className="rounded-xl p-1.5 text-slate-400 hover:bg-navy-800 hover:text-white transition"
           >
             ✕
           </button>
@@ -888,7 +889,7 @@ function CreateTeamModal({
 
         <form action={action} className="mt-5 space-y-3.5">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600">
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">
               Teamnaam
               <input
                 name="teamName"
@@ -900,7 +901,7 @@ function CreateTeamModal({
               />
             </label>
 
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600">
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">
               Subdomein
               <input
                 name="subdomain"
@@ -913,7 +914,7 @@ function CreateTeamModal({
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600">
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">
               Manager Naam
               <input
                 name="managerName"
@@ -925,7 +926,7 @@ function CreateTeamModal({
               />
             </label>
 
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600">
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">
               Manager E-mail (Ontvangt Uitnodiging)
               <input
                 name="managerEmail"
@@ -941,14 +942,14 @@ function CreateTeamModal({
             <div className="space-y-2">
               <div
                 className={`rounded-xl p-3 text-xs font-medium ${
-                  state.ok ? "bg-emerald-50 text-emerald-800 border border-emerald-200" : "bg-red-50 text-red-700 border border-red-200"
+                  state.ok ? "bg-emerald-950/80 text-emerald-300 border border-emerald-800" : "bg-red-950/80 text-red-300 border border-red-800"
                 }`}
               >
                 {state.message}
               </div>
 
               {state.inviteLink && (
-                <div className="rounded-xl bg-slate-50 p-3 border border-slate-200 space-y-1.5">
+                <div className="rounded-xl bg-navy-950/90 p-3 border border-navy-800 space-y-1.5">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
                     Directe WhatsApp Inloglink
                   </span>
@@ -956,12 +957,12 @@ function CreateTeamModal({
                     <input
                       readOnly
                       value={state.inviteLink}
-                      className="w-full font-mono text-[11px] bg-white border border-slate-200 rounded-lg px-2 py-1 text-slate-700 select-all"
+                      className="w-full font-mono text-[11px] bg-navy-900 border border-navy-700 rounded-lg px-2 py-1 text-gold-300 select-all"
                     />
                     <button
                       type="button"
                       onClick={() => copyLink(state.inviteLink!)}
-                      className="shrink-0 rounded-lg bg-emerald-600 px-3 py-1 text-xs font-bold text-white hover:bg-emerald-700 transition"
+                      className="shrink-0 rounded-lg bg-gold-500 px-3 py-1 text-xs font-bold text-navy-950 hover:bg-gold-400 transition"
                     >
                       {copied ? "Gekopieerd! ✓" : "Kopieer"}
                     </button>
@@ -971,11 +972,11 @@ function CreateTeamModal({
             </div>
           )}
 
-          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-slate-100">
+          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-navy-800">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition"
+              className="rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-400 hover:bg-navy-800 hover:text-white transition"
             >
               {state?.ok ? "Klaar" : "Annuleren"}
             </button>
@@ -983,7 +984,7 @@ function CreateTeamModal({
               <button
                 disabled={pending}
                 type="submit"
-                className="rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-emerald-700 disabled:opacity-50 transition"
+                className="rounded-xl bg-gradient-to-r from-gold-500 to-gold-400 px-4 py-2 text-xs font-bold text-navy-950 shadow-sm hover:brightness-110 disabled:opacity-50 transition"
               >
                 {pending ? "Aanmaken..." : "Team Aanmaken & Uitnodigen"}
               </button>
@@ -1014,15 +1015,15 @@ function EditTeamModal({
   );
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 animate-in fade-in duration-150">
-      <div className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl ring-1 ring-slate-200 animate-in zoom-in-95 duration-150">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3.5">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-4 animate-in fade-in duration-150">
+      <div className="w-full max-w-lg rounded-3xl bg-navy-900 p-6 shadow-2xl border border-navy-700/80 animate-in zoom-in-95 duration-150">
+        <div className="flex items-center justify-between border-b border-navy-800 pb-3.5">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800 font-bold">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-navy-950 text-gold-400 border border-gold-500/30 font-bold">
               ✏️
             </div>
             <div>
-              <h3 className="text-base font-bold text-slate-900">
+              <h3 className="text-base font-bold text-white">
                 Team Gegevens Aanpassen
               </h3>
               <p className="text-xs text-slate-400">
@@ -1032,7 +1033,7 @@ function EditTeamModal({
           </div>
           <button
             onClick={onClose}
-            className="rounded-xl p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition"
+            className="rounded-xl p-1.5 text-slate-400 hover:bg-navy-800 hover:text-white transition"
           >
             ✕
           </button>
@@ -1042,7 +1043,7 @@ function EditTeamModal({
           <input type="hidden" name="teamId" value={team.id} />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600">
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">
               Teamnaam
               <input
                 name="teamName"
@@ -1055,7 +1056,7 @@ function EditTeamModal({
               />
             </label>
 
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600">
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">
               Subdomein
               <input
                 name="subdomain"
@@ -1069,7 +1070,7 @@ function EditTeamModal({
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600">
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">
               Manager Naam
               <input
                 name="managerName"
@@ -1082,7 +1083,7 @@ function EditTeamModal({
               />
             </label>
 
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600">
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">
               Manager E-mail
               <input
                 name="managerEmail"
@@ -1095,7 +1096,7 @@ function EditTeamModal({
             </label>
           </div>
 
-          <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600">
+          <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">
             Status
             <select
               name="isActive"
@@ -1110,25 +1111,25 @@ function EditTeamModal({
           {state && (
             <div
               className={`rounded-xl p-2.5 text-xs font-medium ${
-                state.ok ? "bg-emerald-50 text-emerald-800 border border-emerald-200" : "bg-red-50 text-red-700 border border-red-200"
+                state.ok ? "bg-emerald-950/80 text-emerald-300 border border-emerald-800" : "bg-red-950/80 text-red-300 border border-red-800"
               }`}
             >
               {state.message}
             </div>
           )}
 
-          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-slate-100">
+          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-navy-800">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition"
+              className="rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-400 hover:bg-navy-800 hover:text-white transition"
             >
               Annuleren
             </button>
             <button
               disabled={pending}
               type="submit"
-              className="rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-emerald-700 disabled:opacity-50 transition"
+              className="rounded-xl bg-gradient-to-r from-gold-500 to-gold-400 px-4 py-2 text-xs font-bold text-navy-950 shadow-sm hover:brightness-110 disabled:opacity-50 transition"
             >
               {pending ? "Opslaan..." : "Wijzigingen Opslaan"}
             </button>
@@ -1158,15 +1159,15 @@ function ArchiveTeamModal({
   );
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 animate-in fade-in duration-150">
-      <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl ring-1 ring-slate-200 animate-in zoom-in-95 duration-150">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3.5">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-4 animate-in fade-in duration-150">
+      <div className="w-full max-w-md rounded-3xl bg-navy-900 p-6 shadow-2xl border border-navy-700/80 animate-in zoom-in-95 duration-150">
+        <div className="flex items-center justify-between border-b border-navy-800 pb-3.5">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-100 text-amber-800 font-bold">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-950/80 border border-amber-700/50 text-amber-300 font-bold">
               📦
             </div>
             <div>
-              <h3 className="text-base font-bold text-slate-900">
+              <h3 className="text-base font-bold text-white">
                 Team Archiveren
               </h3>
               <p className="text-xs text-slate-400">
@@ -1176,18 +1177,18 @@ function ArchiveTeamModal({
           </div>
           <button
             onClick={onClose}
-            className="rounded-xl p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition"
+            className="rounded-xl p-1.5 text-slate-400 hover:bg-navy-800 hover:text-white transition"
           >
             ✕
           </button>
         </div>
 
         <div className="mt-4 space-y-3">
-          <p className="text-xs text-slate-600 leading-relaxed">
-            Weet je zeker dat je het team <strong className="text-slate-900">{team.name}</strong> wilt verplaatsen naar het archief?
+          <p className="text-xs text-slate-300 leading-relaxed">
+            Weet je zeker dat je het team <strong className="text-white">{team.name}</strong> wilt verplaatsen naar het archief?
           </p>
-          <div className="rounded-xl bg-amber-50 p-3 text-[11px] text-amber-900 border border-amber-200/80 space-y-1.5">
-            <div>✓ <strong>Website offline:</strong> <span className="font-mono text-amber-800">{team.subdomain}.squadbase.nl</span> wordt tijdelijk gedeactiveerd.</div>
+          <div className="rounded-xl bg-amber-950/50 p-3 text-[11px] text-amber-200 border border-amber-800/60 space-y-1.5">
+            <div>✓ <strong>Website offline:</strong> <span className="font-mono text-amber-300">{team.subdomain}.squadbase.nl</span> wordt tijdelijk gedeactiveerd.</div>
             <div>✓ <strong>Inloggen geblokkeerd:</strong> De teammanager en spelers kunnen niet meer inloggen.</div>
             <div>✓ <strong>Data blijft 100% veilig:</strong> Alle selectie-, boetepot- en statistiekgegevens blijven bewaard. Je kunt het team op elk moment weer terugzetten!</div>
           </div>
@@ -1199,25 +1200,25 @@ function ArchiveTeamModal({
           {state && (
             <div
               className={`rounded-xl p-2.5 text-xs font-medium ${
-                state.ok ? "bg-emerald-50 text-emerald-800 border border-emerald-200" : "bg-red-50 text-red-700 border border-red-200"
+                state.ok ? "bg-emerald-950/80 text-emerald-300 border border-emerald-800" : "bg-red-950/80 text-red-300 border border-red-800"
               }`}
             >
               {state.message}
             </div>
           )}
 
-          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-slate-100">
+          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-navy-800">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition"
+              className="rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-400 hover:bg-navy-800 hover:text-white transition"
             >
               Annuleren
             </button>
             <button
               disabled={pending}
               type="submit"
-              className="rounded-xl bg-amber-600 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-amber-700 disabled:opacity-50 transition"
+              className="rounded-xl bg-amber-600 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-amber-500 disabled:opacity-50 transition"
             >
               {pending ? "Archiveren..." : "Team Archiveren"}
             </button>
@@ -1247,15 +1248,15 @@ function RestoreTeamModal({
   );
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 animate-in fade-in duration-150">
-      <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl ring-1 ring-slate-200 animate-in zoom-in-95 duration-150">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3.5">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-4 animate-in fade-in duration-150">
+      <div className="w-full max-w-md rounded-3xl bg-navy-900 p-6 shadow-2xl border border-navy-700/80 animate-in zoom-in-95 duration-150">
+        <div className="flex items-center justify-between border-b border-navy-800 pb-3.5">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800 font-bold">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-950/80 border border-emerald-700/50 text-emerald-300 font-bold">
               ♻️
             </div>
             <div>
-              <h3 className="text-base font-bold text-slate-900">
+              <h3 className="text-base font-bold text-white">
                 Team Herstellen
               </h3>
               <p className="text-xs text-slate-400">
@@ -1265,18 +1266,18 @@ function RestoreTeamModal({
           </div>
           <button
             onClick={onClose}
-            className="rounded-xl p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition"
+            className="rounded-xl p-1.5 text-slate-400 hover:bg-navy-800 hover:text-white transition"
           >
             ✕
           </button>
         </div>
 
         <div className="mt-4 space-y-3">
-          <p className="text-xs text-slate-600 leading-relaxed">
-            Weet je zeker dat je het team <strong className="text-slate-900">{team.name}</strong> wilt herstellen?
+          <p className="text-xs text-slate-300 leading-relaxed">
+            Weet je zeker dat je het team <strong className="text-white">{team.name}</strong> wilt herstellen?
           </p>
-          <div className="rounded-xl bg-emerald-50 p-3 text-[11px] text-emerald-900 border border-emerald-200/80">
-            ✓ Het subdomein <strong className="font-mono text-emerald-800">{team.subdomain}.squadbase.nl</strong> en de CMS-inlog voor de manager worden direct weer geactiveerd.
+          <div className="rounded-xl bg-emerald-950/50 p-3 text-[11px] text-emerald-200 border border-emerald-800/60">
+            ✓ Het subdomein <strong className="font-mono text-emerald-300">{team.subdomain}.squadbase.nl</strong> en de CMS-inlog voor de manager worden direct weer geactiveerd.
           </div>
         </div>
 
@@ -1286,25 +1287,25 @@ function RestoreTeamModal({
           {state && (
             <div
               className={`rounded-xl p-2.5 text-xs font-medium ${
-                state.ok ? "bg-emerald-50 text-emerald-800 border border-emerald-200" : "bg-red-50 text-red-700 border border-red-200"
+                state.ok ? "bg-emerald-950/80 text-emerald-300 border border-emerald-800" : "bg-red-950/80 text-red-300 border border-red-800"
               }`}
             >
               {state.message}
             </div>
           )}
 
-          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-slate-100">
+          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-navy-800">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition"
+              className="rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-400 hover:bg-navy-800 hover:text-white transition"
             >
               Annuleren
             </button>
             <button
               disabled={pending}
               type="submit"
-              className="rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-emerald-700 disabled:opacity-50 transition"
+              className="rounded-xl bg-gradient-to-r from-gold-500 to-gold-400 px-4 py-2 text-xs font-bold text-navy-950 shadow-xs hover:brightness-110 disabled:opacity-50 transition"
             >
               {pending ? "Herstellen..." : "Team Weer Live Zetten"}
             </button>
@@ -1334,35 +1335,35 @@ function DeleteTeamModal({
   );
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 animate-in fade-in duration-150">
-      <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl ring-1 ring-slate-200 animate-in zoom-in-95 duration-150">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3.5">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-4 animate-in fade-in duration-150">
+      <div className="w-full max-w-md rounded-3xl bg-navy-900 p-6 shadow-2xl border border-navy-700/80 animate-in zoom-in-95 duration-150">
+        <div className="flex items-center justify-between border-b border-navy-800 pb-3.5">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-100 text-red-700 font-bold">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-950/80 border border-red-700/50 text-red-400 font-bold">
               🗑️
             </div>
             <div>
-              <h3 className="text-base font-bold text-slate-900">
+              <h3 className="text-base font-bold text-white">
                 Definitief Verwijderen
               </h3>
-              <p className="text-xs text-red-500 font-semibold">
+              <p className="text-xs text-red-400 font-semibold">
                 Onomkeerbare database actie
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="rounded-xl p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition"
+            className="rounded-xl p-1.5 text-slate-400 hover:bg-navy-800 hover:text-white transition"
           >
             ✕
           </button>
         </div>
 
         <div className="mt-4 space-y-3">
-          <p className="text-xs text-slate-600 leading-relaxed">
-            Weet je 100% zeker dat je team <strong className="text-slate-900">{team.name}</strong> definitief wilt verwijderen uit de database?
+          <p className="text-xs text-slate-300 leading-relaxed">
+            Weet je 100% zeker dat je team <strong className="text-white">{team.name}</strong> definitief wilt verwijderen uit de database?
           </p>
-          <div className="rounded-xl bg-red-50 p-3 text-[11px] text-red-800 border border-red-200/80">
+          <div className="rounded-xl bg-red-950/50 p-3 text-[11px] text-red-300 border border-red-800/60">
             ⚠️ <strong>Let op:</strong> Dit verwijdert alle gekoppelde selectieleden, kasboeken, boetepot en instellingen permanent. Deze actie kan <u>niet</u> ongedaan worden gemaakt.
           </div>
         </div>
@@ -1373,25 +1374,25 @@ function DeleteTeamModal({
           {state && (
             <div
               className={`rounded-xl p-2.5 text-xs font-medium ${
-                state.ok ? "bg-emerald-50 text-emerald-800 border border-emerald-200" : "bg-red-50 text-red-700 border border-red-200"
+                state.ok ? "bg-emerald-950/80 text-emerald-300 border border-emerald-800" : "bg-red-950/80 text-red-300 border border-red-800"
               }`}
             >
               {state.message}
             </div>
           )}
 
-          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-slate-100">
+          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-navy-800">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition"
+              className="rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-400 hover:bg-navy-800 hover:text-white transition"
             >
               Annuleren
             </button>
             <button
               disabled={pending}
               type="submit"
-              className="rounded-xl bg-red-600 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-red-700 disabled:opacity-50 transition"
+              className="rounded-xl bg-red-600 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-red-500 disabled:opacity-50 transition"
             >
               {pending ? "Verwijderen..." : "Definitief Verwijderen"}
             </button>
@@ -1421,15 +1422,15 @@ function DeleteUserModal({
   );
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 animate-in fade-in duration-150">
-      <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl ring-1 ring-slate-200 animate-in zoom-in-95 duration-150">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3.5">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-4 animate-in fade-in duration-150">
+      <div className="w-full max-w-md rounded-3xl bg-navy-900 p-6 shadow-2xl border border-navy-700/80 animate-in zoom-in-95 duration-150">
+        <div className="flex items-center justify-between border-b border-navy-800 pb-3.5">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-100 text-red-700 font-bold">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-950/80 border border-red-700/50 text-red-400 font-bold">
               🗑️
             </div>
             <div>
-              <h3 className="text-base font-bold text-slate-900">
+              <h3 className="text-base font-bold text-white">
                 Gebruiker Verwijderen
               </h3>
               <p className="text-xs text-slate-400">
@@ -1439,18 +1440,18 @@ function DeleteUserModal({
           </div>
           <button
             onClick={onClose}
-            className="rounded-xl p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition"
+            className="rounded-xl p-1.5 text-slate-400 hover:bg-navy-800 hover:text-white transition"
           >
             ✕
           </button>
         </div>
 
         <div className="mt-4 space-y-3">
-          <p className="text-xs text-slate-600 leading-relaxed">
-            Weet je zeker dat je gebruiker <strong className="text-slate-900">{user.name ?? "Onbekend"}</strong> (<span className="font-mono text-slate-700">{user.email}</span>) wilt verwijderen van het platform?
+          <p className="text-xs text-slate-300 leading-relaxed">
+            Weet je zeker dat je gebruiker <strong className="text-white">{user.name ?? "Onbekend"}</strong> (<span className="font-mono text-slate-300">{user.email}</span>) wilt verwijderen van het platform?
           </p>
           {user.teamName && (
-            <div className="rounded-xl bg-amber-50 p-3 text-[11px] text-amber-800 border border-amber-200/80">
+            <div className="rounded-xl bg-amber-950/50 p-3 text-[11px] text-amber-200 border border-amber-800/60">
               ℹ️ Deze gebruiker is gekoppeld aan <strong>{user.teamName}</strong> als coach/speler. De koppeling wordt verbroken.
             </div>
           )}
@@ -1462,25 +1463,25 @@ function DeleteUserModal({
           {state && (
             <div
               className={`rounded-xl p-2.5 text-xs font-medium ${
-                state.ok ? "bg-emerald-50 text-emerald-800 border border-emerald-200" : "bg-red-50 text-red-700 border border-red-200"
+                state.ok ? "bg-emerald-950/80 text-emerald-300 border border-emerald-800" : "bg-red-950/80 text-red-300 border border-red-800"
               }`}
             >
               {state.message}
             </div>
           )}
 
-          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-slate-100">
+          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-navy-800">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition"
+              className="rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-400 hover:bg-navy-800 hover:text-white transition"
             >
               Annuleren
             </button>
             <button
               disabled={pending}
               type="submit"
-              className="rounded-xl bg-red-600 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-red-700 disabled:opacity-50 transition"
+              className="rounded-xl bg-red-600 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-red-500 disabled:opacity-50 transition"
             >
               {pending ? "Verwijderen..." : "Gebruiker Verwijderen"}
             </button>

@@ -3,7 +3,6 @@
 import { and, count, eq, gt, isNull, sql } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { after } from "next/server";
 import { loginTokens, users } from "@/db/schema";
 import { hashToken, newToken, LOGIN_TOKEN_TTL_MINUTES } from "@/lib/auth";
 import { safeQuery } from "@/lib/db";
@@ -86,9 +85,16 @@ export async function requestLogin(
   const origin = `${proto}://${host}`;
 
   const link = `${origin}/login/verify?token=${encodeURIComponent(token)}`;
-  after(() => sendLoginEmail(email, link));
+  const sent = await sendLoginEmail(email, link);
+  if (!sent) {
+    return {
+      ok: false,
+      message: "De e-mail kon niet verstuurd worden. Probeer het later opnieuw.",
+    };
+  }
 
-  if (!process.env.RESEND_API_KEY || process.env.NODE_ENV !== "production") {
+  // Local testing only: never in production, and only when explicitly enabled.
+  if (process.env.NODE_ENV !== "production" && process.env.ALLOW_DEV_LOGIN_LINK === "true") {
     return {
       ok: true,
       message: "Inloglink succesvol gegenereerd!",

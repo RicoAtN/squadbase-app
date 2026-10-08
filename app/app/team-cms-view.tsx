@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useActionState } from "react";
+import Image from "next/image";
 import {
   updateTeamSettings,
   addPlayer,
@@ -32,14 +33,15 @@ export type TeamCmsData = {
 };
 
 const inputStyle =
-  "mt-1.5 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-900 shadow-2xs focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-200 transition";
+  "mt-1.5 w-full rounded-xl border border-navy-700 bg-navy-950 px-3.5 py-2 text-sm text-white placeholder:text-slate-500 shadow-2xs focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/20 transition";
 
 const COLOR_PRESETS = [
+  { name: "Squadbase Navy", hex: "#122c4f" },
+  { name: "Kampioen Goud", hex: "#c49e4b" },
   { name: "Emerald Groen", hex: "#059669" },
   { name: "Koninklijk Blauw", hex: "#2563eb" },
   { name: "Robijn Rood", hex: "#dc2626" },
   { name: "Klassiek Oranje", hex: "#ea580c" },
-  { name: "Goud Geel", hex: "#d97706" },
   { name: "Paars", hex: "#7c3aed" },
   { name: "Nacht Zwart", hex: "#0f172a" },
   { name: "Bordeaux", hex: "#881337" },
@@ -79,9 +81,9 @@ export function TeamCmsView({
     <div className="space-y-6">
       {/* 1. Team Banner Header */}
       <section
-        className="rounded-3xl p-6 sm:p-8 text-white shadow-md transition-colors"
+        className="rounded-3xl p-6 sm:p-8 text-white shadow-xl transition-colors border border-navy-800/80"
         style={{
-          background: `linear-gradient(135deg, ${selectedColor} 0%, #0f172a 100%)`,
+          background: `linear-gradient(135deg, ${selectedColor} 0%, #071324 100%)`,
         }}
       >
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -114,7 +116,7 @@ export function TeamCmsView({
               href={teamUrl}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-xl bg-white px-4 py-2 text-xs font-bold text-slate-900 shadow-sm hover:bg-slate-50 transition"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-white/15 hover:bg-white/25 border border-white/20 backdrop-blur-md px-4 py-2 text-xs font-bold text-white shadow-sm transition"
             >
               <span>Publieke Website</span>
               <span>&rarr;</span>
@@ -125,46 +127,46 @@ export function TeamCmsView({
 
       {/* 2. Quick KPI Cards */}
       <section className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="rounded-2xl bg-white p-4 shadow-2xs ring-1 ring-slate-200/80">
+        <div className="rounded-2xl bg-navy-900/90 p-4 border border-navy-800/80 shadow-md">
           <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
             Selectie
           </span>
-          <div className="mt-1 text-2xl font-black text-slate-900">
+          <div className="mt-1 text-2xl font-black text-white">
             {players.length}
           </div>
           <p className="text-[10px] text-slate-400">Spelers & staf geregistreerd</p>
         </div>
 
-        <div className="rounded-2xl bg-white p-4 shadow-2xs ring-1 ring-slate-200/80">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-600 block">
+        <div className="rounded-2xl bg-navy-900/90 p-4 border border-navy-800/80 shadow-md">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-gold-400 block">
             Teamkas / Boetepot
           </span>
-          <div className="mt-1 text-2xl font-black text-emerald-700">
+          <div className="mt-1 text-2xl font-black text-gold-400">
             € 0,00
           </div>
           <p className="text-[10px] text-slate-400">0 openstaande boetes</p>
         </div>
 
-        <div className="rounded-2xl bg-white p-4 shadow-2xs ring-1 ring-slate-200/80">
+        <div className="rounded-2xl bg-navy-900/90 p-4 border border-navy-800/80 shadow-md">
           <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
             Team Coach
           </span>
-          <div className="mt-1 text-sm font-bold text-slate-900 truncate">
+          <div className="mt-1 text-sm font-bold text-white truncate">
             {managerName}
           </div>
           <p className="text-[10px] text-slate-400 truncate">{managerEmail}</p>
         </div>
 
-        <div className="rounded-2xl bg-white p-4 shadow-2xs ring-1 ring-slate-200/80">
+        <div className="rounded-2xl bg-navy-900/90 p-4 border border-navy-800/80 shadow-md">
           <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
             Clubkleur
           </span>
           <div className="mt-1.5 flex items-center gap-2">
             <span
-              className="h-5 w-5 rounded-full ring-2 ring-white shadow-xs"
+              className="h-5 w-5 rounded-full ring-2 ring-navy-700 shadow-xs"
               style={{ backgroundColor: selectedColor }}
             />
-            <span className="font-mono text-xs font-bold text-slate-700">
+            <span className="font-mono text-xs font-bold text-slate-200">
               {selectedColor}
             </span>
           </div>
@@ -173,23 +175,23 @@ export function TeamCmsView({
       </section>
 
       {/* 3. Main Navigation Tabs */}
-      <div className="rounded-2xl bg-white shadow-xs ring-1 ring-slate-200/80 overflow-hidden">
-        <div className="border-b border-slate-200 px-5 py-3 flex flex-wrap items-center justify-between gap-3 bg-white">
-          <div className="inline-flex items-center rounded-xl bg-slate-100 p-1">
+      <div className="rounded-2xl bg-navy-900/90 shadow-md border border-navy-800/80 overflow-hidden">
+        <div className="border-b border-navy-800/80 px-5 py-3 flex flex-wrap items-center justify-between gap-3 bg-navy-900/95">
+          <div className="inline-flex items-center rounded-xl bg-navy-950/80 border border-navy-800/60 p-1">
             <button
               onClick={() => setActiveTab("roster")}
               className={`inline-flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-bold transition ${
                 activeTab === "roster"
-                  ? "bg-white text-emerald-800 shadow-xs"
-                  : "text-slate-600 hover:text-slate-900"
+                  ? "bg-navy-800 text-white shadow-xs border border-navy-700/80"
+                  : "text-slate-400 hover:text-white"
               }`}
             >
               <span>👥 Selectie & Spelers</span>
               <span
                 className={`rounded-full px-2 py-0.2 text-[11px] font-black ${
                   activeTab === "roster"
-                    ? "bg-emerald-100 text-emerald-800"
-                    : "bg-slate-200/70 text-slate-600"
+                    ? "bg-navy-700 text-gold-300"
+                    : "bg-navy-900 text-slate-400"
                 }`}
               >
                 {players.length}
@@ -200,8 +202,8 @@ export function TeamCmsView({
               onClick={() => setActiveTab("settings")}
               className={`inline-flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-bold transition ${
                 activeTab === "settings"
-                  ? "bg-white text-emerald-800 shadow-xs"
-                  : "text-slate-600 hover:text-slate-900"
+                  ? "bg-navy-800 text-white shadow-xs border border-navy-700/80"
+                  : "text-slate-400 hover:text-white"
               }`}
             >
               <span>⚙️ Team Branding & Info</span>
@@ -211,8 +213,8 @@ export function TeamCmsView({
               onClick={() => setActiveTab("fines")}
               className={`inline-flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-bold transition ${
                 activeTab === "fines"
-                  ? "bg-white text-emerald-800 shadow-xs"
-                  : "text-slate-600 hover:text-slate-900"
+                  ? "bg-navy-800 text-white shadow-xs border border-navy-700/80"
+                  : "text-slate-400 hover:text-white"
               }`}
             >
               <span>💶 Boetepot & Kas</span>
@@ -222,7 +224,7 @@ export function TeamCmsView({
           {activeTab === "roster" && (
             <button
               onClick={() => setIsAddingPlayer(true)}
-              className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-600 px-3.5 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-emerald-700 transition"
+              className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-gold-500 to-gold-400 px-3.5 py-1.5 text-xs font-bold text-navy-950 shadow-md hover:from-gold-400 hover:to-gold-300 transition"
             >
               <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
@@ -237,7 +239,7 @@ export function TeamCmsView({
           <div className="w-full overflow-x-auto">
             <table className="w-full text-left text-sm border-collapse">
               <thead>
-                <tr className="border-b border-slate-200 bg-slate-50/75 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                <tr className="border-b border-navy-800 bg-navy-950/70 text-[11px] font-bold uppercase tracking-wider text-slate-400">
                   <th className="px-5 py-3">Nr</th>
                   <th className="px-5 py-3">Speler</th>
                   <th className="px-5 py-3">Positie</th>
@@ -246,28 +248,28 @@ export function TeamCmsView({
                   <th className="px-5 py-3 text-right">Acties</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 bg-white text-slate-700">
+              <tbody className="divide-y divide-navy-800/60 bg-transparent text-slate-200">
                 {players.map((p) => (
-                  <tr key={p.id} className="hover:bg-slate-50/80 transition-colors">
+                  <tr key={p.id} className="hover:bg-navy-800/40 transition-colors">
                     {/* Jersey */}
                     <td className="px-5 py-3 whitespace-nowrap">
                       {p.jerseyNumber !== null ? (
-                        <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-900 text-xs font-black text-white shadow-2xs font-mono">
+                        <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-navy-800 text-xs font-black text-gold-300 border border-navy-700 shadow-2xs font-mono">
                           {p.jerseyNumber}
                         </span>
                       ) : (
-                        <span className="text-xs text-slate-300 font-mono">—</span>
+                        <span className="text-xs text-slate-500 font-mono">—</span>
                       )}
                     </td>
 
                     {/* Name */}
-                    <td className="px-5 py-3 whitespace-nowrap font-bold text-slate-900 text-xs">
+                    <td className="px-5 py-3 whitespace-nowrap font-bold text-white text-xs">
                       {p.name}
                     </td>
 
                     {/* Position */}
                     <td className="px-5 py-3 whitespace-nowrap">
-                      <span className="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-semibold text-slate-700">
+                      <span className="inline-flex items-center rounded-md bg-navy-800/80 px-2 py-0.5 text-[11px] font-semibold text-slate-300 border border-navy-700/60">
                         {p.position}
                       </span>
                     </td>
@@ -275,21 +277,21 @@ export function TeamCmsView({
                     {/* Role */}
                     <td className="px-5 py-3 whitespace-nowrap">
                       {p.role === "Aanvoerder" ? (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-bold text-amber-800 border border-amber-200">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-amber-950/60 px-2.5 py-0.5 text-[10px] font-bold text-amber-300 border border-amber-800/60">
                           © Aanvoerder
                         </span>
                       ) : p.role === "Coach / Trainer" ? (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-800 border border-emerald-200">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-navy-800 px-2.5 py-0.5 text-[10px] font-bold text-gold-300 border border-navy-700">
                           Coach
                         </span>
                       ) : (
-                        <span className="text-xs text-slate-500">{p.role}</span>
+                        <span className="text-xs text-slate-400">{p.role}</span>
                       )}
                     </td>
 
                     {/* Email */}
-                    <td className="px-5 py-3 whitespace-nowrap text-xs text-slate-500 font-mono">
-                      {p.email || <span className="text-slate-300 italic">Geen account</span>}
+                    <td className="px-5 py-3 whitespace-nowrap text-xs text-slate-400 font-mono">
+                      {p.email || <span className="text-slate-500 italic">Geen account</span>}
                     </td>
 
                     {/* Actions */}
@@ -297,9 +299,9 @@ export function TeamCmsView({
                       <div className="inline-flex items-center gap-1.5">
                         <button
                           onClick={() => setEditingPlayer(p)}
-                          className="inline-flex items-center gap-1 rounded-lg border border-slate-300 bg-white px-2.5 py-1 text-xs font-bold text-slate-700 shadow-2xs hover:bg-slate-50 hover:border-slate-400 transition"
+                          className="inline-flex items-center gap-1 rounded-lg border border-navy-700 bg-navy-800/80 px-2.5 py-1 text-xs font-bold text-slate-200 shadow-2xs hover:bg-navy-700 hover:text-white transition"
                         >
-                          <svg className="h-3 w-3 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <svg className="h-3 w-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                           </svg>
                           Bewerken
@@ -307,10 +309,10 @@ export function TeamCmsView({
 
                         <button
                           onClick={() => setDeletingPlayer(p)}
-                          className="inline-flex items-center gap-1 rounded-lg border border-red-200 bg-red-50/50 px-2.5 py-1 text-xs font-bold text-red-700 shadow-2xs hover:bg-red-100 hover:border-red-300 transition"
+                          className="inline-flex items-center gap-1 rounded-lg border border-red-900/50 bg-red-950/40 px-2.5 py-1 text-xs font-bold text-red-300 shadow-2xs hover:bg-red-900/50 transition"
                           title="Verwijderen"
                         >
-                          <svg className="h-3 w-3 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <svg className="h-3 w-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                           </svg>
                           Verwijderen
@@ -322,7 +324,7 @@ export function TeamCmsView({
 
                 {players.length === 0 && (
                   <tr>
-                    <td colSpan={6} className="px-6 py-10 text-center text-slate-500 text-xs">
+                    <td colSpan={6} className="px-6 py-10 text-center text-slate-400 text-xs">
                       Nog geen spelers toegevoegd aan de selectie. Klik op &quot;Speler Toevoegen&quot; om de eerste speler aan te melden!
                     </td>
                   </tr>
@@ -346,16 +348,16 @@ export function TeamCmsView({
         {/* Tab Content 3: Boetepot Preview */}
         {activeTab === "fines" && (
           <div className="p-6 sm:p-8 text-center space-y-4">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-800 text-3xl font-bold">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-navy-800 text-gold-400 text-3xl font-bold border border-navy-700">
               💶
             </div>
-            <h3 className="text-lg font-bold text-slate-900">
+            <h3 className="text-lg font-bold text-white">
               Teamkas & Boetepot Module
             </h3>
-            <p className="text-xs text-slate-500 max-w-md mx-auto">
+            <p className="text-xs text-slate-300 max-w-md mx-auto">
               Houd eenvoudig teamregels, boetes per wedstrijd (te laat komen, foute panna, tas vergeten) en de actuele stand van de pot bij.
             </p>
-            <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-800 border border-emerald-200">
+            <div className="inline-flex items-center gap-2 rounded-full bg-navy-800 px-3 py-1 text-xs font-bold text-gold-300 border border-gold-500/30">
               ✓ Klaar voor configuratie
             </div>
           </div>
@@ -414,17 +416,17 @@ function SettingsTabContent({
       <input type="hidden" name="logoEmoji" value={selectedEmoji} />
 
       <div>
-        <h3 className="text-base font-bold text-slate-900">
+        <h3 className="text-base font-bold text-white">
           Team Weergave & Branding
         </h3>
-        <p className="text-xs text-slate-500 mt-0.5">
+        <p className="text-xs text-slate-400 mt-0.5">
           Pas de clubkleuren, teamnaam en informatie aan voor de openbare teampagina.
         </p>
       </div>
 
       <div className="space-y-4">
         {/* Teamnaam */}
-        <label className="block text-xs font-bold uppercase tracking-wider text-slate-600">
+        <label className="block text-xs font-bold uppercase tracking-wider text-slate-300">
           Teamnaam
           <input
             name="teamName"
@@ -439,14 +441,14 @@ function SettingsTabContent({
 
         {/* Subdomein (Locked with explanation) */}
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-slate-600">
+          <label className="block text-xs font-bold uppercase tracking-wider text-slate-300">
             Subdomein (Vaste URL)
           </label>
-          <div className="mt-1.5 flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm text-slate-500">
-            <span className="font-mono font-bold text-slate-800">
+          <div className="mt-1.5 flex items-center justify-between rounded-xl border border-navy-800 bg-navy-950 px-3.5 py-2 text-sm text-slate-400">
+            <span className="font-mono font-bold text-gold-300">
               {team.subdomain}.squadbase.nl
             </span>
-            <span className="inline-flex items-center gap-1 rounded-md bg-slate-200/70 px-2 py-0.5 text-[10px] font-bold text-slate-600">
+            <span className="inline-flex items-center gap-1 rounded-md bg-navy-800 px-2 py-0.5 text-[10px] font-bold text-slate-300 border border-navy-700">
               🔒 Beveiligd
             </span>
           </div>
@@ -457,7 +459,7 @@ function SettingsTabContent({
 
         {/* Clubkleur selector */}
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">
+          <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
             Clubkleur (Kleur van je team)
           </label>
           <div className="flex flex-wrap gap-2.5">
@@ -468,8 +470,8 @@ function SettingsTabContent({
                 onClick={() => setSelectedColor(c.hex)}
                 className={`flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-bold transition ${
                   selectedColor.toLowerCase() === c.hex.toLowerCase()
-                    ? "border-slate-900 bg-slate-900 text-white shadow-xs"
-                    : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                    ? "border-gold-500 bg-gold-500/20 text-gold-300 shadow-xs ring-1 ring-gold-500/30"
+                    : "border-navy-700 bg-navy-950 text-slate-300 hover:bg-navy-800"
                 }`}
               >
                 <span
@@ -484,7 +486,7 @@ function SettingsTabContent({
 
         {/* Logo Emoji Selector */}
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">
+          <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
             Team Logo / Mascotte
           </label>
           <div className="flex flex-wrap gap-2">
@@ -495,8 +497,8 @@ function SettingsTabContent({
                 onClick={() => setSelectedEmoji(emoji)}
                 className={`flex h-10 w-10 items-center justify-center rounded-xl border text-lg transition ${
                   selectedEmoji === emoji
-                    ? "border-emerald-600 bg-emerald-50 ring-2 ring-emerald-300 scale-105"
-                    : "border-slate-200 bg-white hover:bg-slate-50"
+                    ? "border-gold-500 bg-gold-500/20 ring-2 ring-gold-400 scale-105"
+                    : "border-navy-700 bg-navy-950 hover:bg-navy-800"
                 }`}
               >
                 {emoji}
@@ -506,7 +508,7 @@ function SettingsTabContent({
         </div>
 
         {/* Tagline & Slogan */}
-        <label className="block text-xs font-bold uppercase tracking-wider text-slate-600">
+        <label className="block text-xs font-bold uppercase tracking-wider text-slate-300">
           Teammotto / Slogan
           <input
             name="tagline"
@@ -518,7 +520,7 @@ function SettingsTabContent({
         </label>
 
         {/* Home ground */}
-        <label className="block text-xs font-bold uppercase tracking-wider text-slate-600">
+        <label className="block text-xs font-bold uppercase tracking-wider text-slate-300">
           Thuishonk / Sportpark
           <input
             name="homeGround"
@@ -534,8 +536,8 @@ function SettingsTabContent({
         <div
           className={`rounded-xl p-3 text-xs font-medium ${
             state.ok
-              ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
-              : "bg-red-50 text-red-700 border border-red-200"
+              ? "bg-emerald-950/60 text-emerald-300 border border-emerald-800/80"
+              : "bg-red-950/60 text-red-300 border border-red-800/80"
           }`}
         >
           {state.message}
@@ -546,7 +548,7 @@ function SettingsTabContent({
         <button
           disabled={pending}
           type="submit"
-          className="rounded-xl bg-emerald-600 px-5 py-2.5 text-xs font-bold text-white shadow-xs hover:bg-emerald-700 disabled:opacity-50 transition"
+          className="rounded-xl bg-gradient-to-r from-gold-500 to-gold-400 px-5 py-2.5 text-xs font-black text-navy-950 shadow-md hover:from-gold-400 hover:to-gold-300 disabled:opacity-50 transition"
         >
           {pending ? "Opslaan..." : "Instellingen Opslaan"}
         </button>
@@ -574,15 +576,15 @@ function AddPlayerModal({
   );
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 animate-in fade-in duration-150">
-      <div className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl ring-1 ring-slate-200 animate-in zoom-in-95 duration-150">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3.5">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-4 animate-in fade-in duration-150">
+      <div className="w-full max-w-lg rounded-3xl bg-navy-900 p-6 shadow-2xl border border-navy-700/80 animate-in zoom-in-95 duration-150">
+        <div className="flex items-center justify-between border-b border-navy-800 pb-3.5">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800 font-bold">
-              ⚽
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-navy-800 p-1.5 text-gold-400 font-bold border border-gold-500/20 shadow-2xs">
+              <Image src="/logo.png" alt="Squadbase" width={22} height={22} className="object-contain" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-slate-900">
+              <h3 className="text-base font-bold text-white">
                 Nieuwe Speler Toevoegen
               </h3>
               <p className="text-xs text-slate-400">
@@ -592,7 +594,7 @@ function AddPlayerModal({
           </div>
           <button
             onClick={onClose}
-            className="rounded-xl p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition"
+            className="rounded-xl p-1.5 text-slate-400 hover:bg-navy-800 hover:text-white transition"
           >
             ✕
           </button>
@@ -603,7 +605,7 @@ function AddPlayerModal({
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
             <div className="sm:col-span-2">
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300">
                 Naam van de speler
                 <input
                   name="name"
@@ -617,7 +619,7 @@ function AddPlayerModal({
             </div>
 
             <div>
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300">
                 Rugnummer
                 <input
                   name="jerseyNumber"
@@ -632,30 +634,30 @@ function AddPlayerModal({
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600">
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300">
               Positie
               <select name="position" defaultValue="Middenvelder" className={inputStyle}>
-                <option value="Keeper">Keeper</option>
-                <option value="Verdediger">Verdediger</option>
-                <option value="Middenvelder">Middenvelder</option>
-                <option value="Aanvaller">Aanvaller</option>
-                <option value="Staf">Staf / Begeleiding</option>
+                <option value="Keeper" className="bg-navy-950 text-white">Keeper</option>
+                <option value="Verdediger" className="bg-navy-950 text-white">Verdediger</option>
+                <option value="Middenvelder" className="bg-navy-950 text-white">Middenvelder</option>
+                <option value="Aanvaller" className="bg-navy-950 text-white">Aanvaller</option>
+                <option value="Staf" className="bg-navy-950 text-white">Staf / Begeleiding</option>
               </select>
             </label>
 
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600">
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300">
               Rol
               <select name="role" defaultValue="Speler" className={inputStyle}>
-                <option value="Speler">Speler</option>
-                <option value="Aanvoerder">Aanvoerder</option>
-                <option value="Coach / Trainer">Coach / Trainer</option>
-                <option value="Leider">Leider</option>
-                <option value="Vaste Vlaggenist">Vaste Vlaggenist</option>
+                <option value="Speler" className="bg-navy-950 text-white">Speler</option>
+                <option value="Aanvoerder" className="bg-navy-950 text-white">Aanvoerder</option>
+                <option value="Coach / Trainer" className="bg-navy-950 text-white">Coach / Trainer</option>
+                <option value="Leider" className="bg-navy-950 text-white">Leider</option>
+                <option value="Vaste Vlaggenist" className="bg-navy-950 text-white">Vaste Vlaggenist</option>
               </select>
             </label>
           </div>
 
-          <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600">
+          <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300">
             E-mailadres (Optioneel voor inloggen)
             <input
               name="email"
@@ -668,25 +670,25 @@ function AddPlayerModal({
           {state && (
             <div
               className={`rounded-xl p-2.5 text-xs font-medium ${
-                state.ok ? "bg-emerald-50 text-emerald-800 border border-emerald-200" : "bg-red-50 text-red-700 border border-red-200"
+                state.ok ? "bg-emerald-950/60 text-emerald-300 border border-emerald-800/80" : "bg-red-950/60 text-red-300 border border-red-800/80"
               }`}
             >
               {state.message}
             </div>
           )}
 
-          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-slate-100">
+          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-navy-800">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition"
+              className="rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-400 hover:bg-navy-800 hover:text-white transition"
             >
               Annuleren
             </button>
             <button
               disabled={pending}
               type="submit"
-              className="rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-emerald-700 disabled:opacity-50 transition"
+              className="rounded-xl bg-gradient-to-r from-gold-500 to-gold-400 px-4 py-2 text-xs font-black text-navy-950 shadow-md hover:from-gold-400 hover:to-gold-300 disabled:opacity-50 transition"
             >
               {pending ? "Toevoegen..." : "Speler Toevoegen"}
             </button>
@@ -718,15 +720,15 @@ function EditPlayerModal({
   );
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 animate-in fade-in duration-150">
-      <div className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl ring-1 ring-slate-200 animate-in zoom-in-95 duration-150">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3.5">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-4 animate-in fade-in duration-150">
+      <div className="w-full max-w-lg rounded-3xl bg-navy-900 p-6 shadow-2xl border border-navy-700/80 animate-in zoom-in-95 duration-150">
+        <div className="flex items-center justify-between border-b border-navy-800 pb-3.5">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800 font-bold">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-navy-800 text-gold-400 font-bold border border-gold-500/20 shadow-2xs">
               ✏️
             </div>
             <div>
-              <h3 className="text-base font-bold text-slate-900">
+              <h3 className="text-base font-bold text-white">
                 Speler Gegevens Aanpassen
               </h3>
               <p className="text-xs text-slate-400">
@@ -736,7 +738,7 @@ function EditPlayerModal({
           </div>
           <button
             onClick={onClose}
-            className="rounded-xl p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition"
+            className="rounded-xl p-1.5 text-slate-400 hover:bg-navy-800 hover:text-white transition"
           >
             ✕
           </button>
@@ -748,7 +750,7 @@ function EditPlayerModal({
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
             <div className="sm:col-span-2">
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300">
                 Naam
                 <input
                   name="name"
@@ -762,7 +764,7 @@ function EditPlayerModal({
             </div>
 
             <div>
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300">
                 Rugnummer
                 <input
                   name="jerseyNumber"
@@ -777,30 +779,30 @@ function EditPlayerModal({
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600">
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300">
               Positie
               <select name="position" defaultValue={player.position} className={inputStyle}>
-                <option value="Keeper">Keeper</option>
-                <option value="Verdediger">Verdediger</option>
-                <option value="Middenvelder">Middenvelder</option>
-                <option value="Aanvaller">Aanvaller</option>
-                <option value="Staf">Staf / Begeleiding</option>
+                <option value="Keeper" className="bg-navy-950 text-white">Keeper</option>
+                <option value="Verdediger" className="bg-navy-950 text-white">Verdediger</option>
+                <option value="Middenvelder" className="bg-navy-950 text-white">Middenvelder</option>
+                <option value="Aanvaller" className="bg-navy-950 text-white">Aanvaller</option>
+                <option value="Staf" className="bg-navy-950 text-white">Staf / Begeleiding</option>
               </select>
             </label>
 
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600">
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300">
               Rol
               <select name="role" defaultValue={player.role} className={inputStyle}>
-                <option value="Speler">Speler</option>
-                <option value="Aanvoerder">Aanvoerder</option>
-                <option value="Coach / Trainer">Coach / Trainer</option>
-                <option value="Leider">Leider</option>
-                <option value="Vaste Vlaggenist">Vaste Vlaggenist</option>
+                <option value="Speler" className="bg-navy-950 text-white">Speler</option>
+                <option value="Aanvoerder" className="bg-navy-950 text-white">Aanvoerder</option>
+                <option value="Coach / Trainer" className="bg-navy-950 text-white">Coach / Trainer</option>
+                <option value="Leider" className="bg-navy-950 text-white">Leider</option>
+                <option value="Vaste Vlaggenist" className="bg-navy-950 text-white">Vaste Vlaggenist</option>
               </select>
             </label>
           </div>
 
-          <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600">
+          <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300">
             E-mailadres
             <input
               name="email"
@@ -814,25 +816,25 @@ function EditPlayerModal({
           {state && (
             <div
               className={`rounded-xl p-2.5 text-xs font-medium ${
-                state.ok ? "bg-emerald-50 text-emerald-800 border border-emerald-200" : "bg-red-50 text-red-700 border border-red-200"
+                state.ok ? "bg-emerald-950/60 text-emerald-300 border border-emerald-800/80" : "bg-red-950/60 text-red-300 border border-red-800/80"
               }`}
             >
               {state.message}
             </div>
           )}
 
-          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-slate-100">
+          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-navy-800">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition"
+              className="rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-400 hover:bg-navy-800 hover:text-white transition"
             >
               Annuleren
             </button>
             <button
               disabled={pending}
               type="submit"
-              className="rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-emerald-700 disabled:opacity-50 transition"
+              className="rounded-xl bg-gradient-to-r from-gold-500 to-gold-400 px-4 py-2 text-xs font-black text-navy-950 shadow-md hover:from-gold-400 hover:to-gold-300 disabled:opacity-50 transition"
             >
               {pending ? "Opslaan..." : "Wijzigingen Opslaan"}
             </button>
@@ -864,15 +866,15 @@ function DeletePlayerModal({
   );
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 animate-in fade-in duration-150">
-      <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl ring-1 ring-slate-200 animate-in zoom-in-95 duration-150">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3.5">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-4 animate-in fade-in duration-150">
+      <div className="w-full max-w-md rounded-3xl bg-navy-900 p-6 shadow-2xl border border-navy-700/80 animate-in zoom-in-95 duration-150">
+        <div className="flex items-center justify-between border-b border-navy-800 pb-3.5">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-100 text-red-700 font-bold">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-950/60 text-red-400 border border-red-800/60 font-bold">
               🗑️
             </div>
             <div>
-              <h3 className="text-base font-bold text-slate-900">
+              <h3 className="text-base font-bold text-white">
                 Speler Verwijderen
               </h3>
               <p className="text-xs text-slate-400">
@@ -882,15 +884,15 @@ function DeletePlayerModal({
           </div>
           <button
             onClick={onClose}
-            className="rounded-xl p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition"
+            className="rounded-xl p-1.5 text-slate-400 hover:bg-navy-800 hover:text-white transition"
           >
             ✕
           </button>
         </div>
 
         <div className="mt-4 space-y-3">
-          <p className="text-xs text-slate-600 leading-relaxed">
-            Weet je zeker dat je <strong className="text-slate-900">{player.name}</strong> ({player.position}) wilt verwijderen uit de selectie?
+          <p className="text-xs text-slate-300 leading-relaxed">
+            Weet je zeker dat je <strong className="text-white">{player.name}</strong> ({player.position}) wilt verwijderen uit de selectie?
           </p>
         </div>
 
@@ -901,18 +903,18 @@ function DeletePlayerModal({
           {state && (
             <div
               className={`rounded-xl p-2.5 text-xs font-medium ${
-                state.ok ? "bg-emerald-50 text-emerald-800 border border-emerald-200" : "bg-red-50 text-red-700 border border-red-200"
+                state.ok ? "bg-emerald-950/60 text-emerald-300 border border-emerald-800/80" : "bg-red-950/60 text-red-300 border border-red-800/80"
               }`}
             >
               {state.message}
             </div>
           )}
 
-          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-slate-100">
+          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-navy-800">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition"
+              className="rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-400 hover:bg-navy-800 hover:text-white transition"
             >
               Annuleren
             </button>
