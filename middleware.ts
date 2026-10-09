@@ -57,6 +57,21 @@ export function middleware(req: NextRequest) {
       return new NextResponse("Invalid host", { status: 400 });
 
     case "root":
+      // Convenience redirect for /login and /admin from root domain / localhost
+      if (pathname === "/login" || pathname.startsWith("/login/")) {
+        const url = req.nextUrl.clone();
+        const hostHeader = req.headers.get("host") ?? "";
+        url.host = hostHeader.includes("localhost") ? "app.localhost:3000" : `app.${ROOT_DOMAIN}`;
+        return NextResponse.redirect(url);
+      }
+      if (pathname === "/admin" || pathname.startsWith("/admin/")) {
+        const url = req.nextUrl.clone();
+        const hostHeader = req.headers.get("host") ?? "";
+        url.host = hostHeader.includes("localhost") ? "admin.localhost:3000" : `admin.${ROOT_DOMAIN}`;
+        url.pathname = pathname.replace(/^\/admin/, "") || "/";
+        return NextResponse.redirect(url);
+      }
+
       // Root domain serves the landing page only. Block direct access to
       // internal routes such as /admin, /app or /<team>.
       return pathname === "/" || pathname.startsWith("/api/")

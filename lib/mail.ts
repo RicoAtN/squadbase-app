@@ -17,6 +17,10 @@ async function deliver(mail: MailPayload, devLabel: string, devLink: string): Pr
       return true;
     } catch (err) {
       console.error("[mail:smtp] Verzenden via Zoho/SMTP mislukt:", err);
+      if (process.env.NODE_ENV !== "production") {
+        console.log(`\n[dev fallback] ${devLabel}:\n${devLink}\n`);
+        return true;
+      }
       return false;
     }
   }
@@ -102,7 +106,7 @@ function emailWrapper(title: string, contentHtml: string): string {
 }
 
 export async function sendLoginEmail(to: string, link: string): Promise<boolean> {
-  const from = process.env.MAIL_FROM ?? process.env.SMTP_USER ?? "Squadbase <login@squadbase.nl>";
+  const from = process.env.MAIL_FROM ?? (process.env.SMTP_USER ? `Squadbase <${process.env.SMTP_USER}>` : "Squadbase <login@squadbase.nl>");
   const plainText = `Klik op de link om direct in te loggen bij Squadbase (24 uur geldig, eenmalig te gebruiken):\n\n${link}\n\nHeb je dit niet aangevraagd? Dan kun je deze e-mail negeren.`;
   const html = emailWrapper(
     "Inloggen bij Squadbase",
@@ -142,7 +146,7 @@ export async function sendTeamInviteEmail({
   subdomain: string;
   link: string;
 }): Promise<boolean> {
-  const from = process.env.MAIL_FROM ?? process.env.SMTP_USER ?? "Squadbase <login@squadbase.nl>";
+  const from = process.env.MAIL_FROM ?? (process.env.SMTP_USER ? `Squadbase <${process.env.SMTP_USER}>` : "Squadbase <login@squadbase.nl>");
   const subject = `Je bent uitgenodigd als beheerder van ${teamName} op Squadbase`;
   const plainText = `Hallo ${managerName},\n\nEr is een Squadbase omgeving klaargezet voor ${teamName} (${subdomain}.squadbase.nl).\n\nKlik op de onderstaande link om direct in te loggen en je teamomgeving in te stellen (7 dagen geldig, eenmalig te gebruiken):\n\n${link}\n\nMet sportieve groet,\nHet Squadbase Team`;
 

@@ -1,6 +1,9 @@
+import { and, eq, gt, isNull, sql } from "drizzle-orm";
 import { NextResponse, type NextRequest } from "next/server";
+import { loginTokens, users } from "@/db/schema";
 import { verifyAndLogin } from "@/app/app/login/actions";
-import { adminUrl } from "@/lib/auth";
+import { adminUrl, hashToken } from "@/lib/auth";
+import { safeQuery } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
@@ -15,14 +18,35 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+    // If this token belongs to a superadmin, forward to adminUrl before consuming
+    // so that the session cookie is placed on the admin domain.
+    const tokenHash = hashToken(token);
+    const peek = await safeQuery((db) =>
+      db
+        .select({ globalRole: users.globalRole })
+        .from(loginTokens)
+        .innerJoin(users, eq(users.id, loginTokens.userId))
+        .where(
+          and(
+            eq(loginTokens.tokenHash, tokenHash),
+            isNull(loginTokens.usedAt),
+            gt(loginTokens.expiresAt, sql`now()`),
+          ),
+        )
+        .limit(1),
+    );
+
+    if (peek.ok && peek.data[0]?.globalRole === "superadmin") {
+      return NextResponse.redirect(`${adminUrl()}/login/verify?token=${encodeURIComponent(token)}`);
+    }
+
     const result = await verifyAndLogin(token);
     if (!result) {
       return NextResponse.redirect(`${appBaseUrl}/login?error=1`);
     }
 
-    const { role, cookieData } = result;
-    const dest = role === "superadmin" ? adminUrl() : `${appBaseUrl}/`;
-    const response = NextResponse.redirect(dest);
+    const { cookieData } = result;
+    const response = NextResponse.redirect(`${appBaseUrl}/`);
 
     if (cookieData) {
       response.cookies.set(cookieData.name, cookieData.value, cookieData.options);

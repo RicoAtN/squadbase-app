@@ -4,7 +4,7 @@ import { and, count, eq, gt, isNull, sql } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { loginTokens, users } from "@/db/schema";
-import { hashToken, newToken, LOGIN_TOKEN_TTL_MINUTES } from "@/lib/auth";
+import { hashToken, newToken, LOGIN_TOKEN_TTL_MINUTES, adminUrl, appUrl } from "@/lib/auth";
 import { safeQuery } from "@/lib/db";
 import { sendLoginEmail } from "@/lib/mail";
 import { createSession, destroySession } from "@/lib/session";
@@ -36,7 +36,7 @@ export async function requestLogin(
   }
 
   const found = await safeQuery((db) =>
-    db.select({ id: users.id }).from(users).where(eq(users.email, email)).limit(1),
+    db.select({ id: users.id, globalRole: users.globalRole }).from(users).where(eq(users.email, email)).limit(1),
   );
   if (!found.ok) {
     return { ok: false, message: "Er ging iets mis met de database. Probeer het zo opnieuw." };
@@ -78,15 +78,24 @@ export async function requestLogin(
     return { ok: false, message: "Er ging iets mis bij het aanmaken van de token." };
   }
 
-  // Resolve current host from request headers
-  const reqHeaders = await headers();
-  const host = reqHeaders.get("host") ?? "app.localhost:3000";
-  const proto = process.env.NODE_ENV === "production" ? "https" : "http";
-  const origin = `${proto}://${host}`;
+  // Resolve target origin: superadmins route directly to admin domain, others to current host or app domain
+  let origin: string;
+  if (user.globalRole === "superadmin") {
+    origin = adminUrl();
+  } else {
+    const reqHeaders = await headers();
+    const host = reqHeaders.get("host");
+    if (host) {
+      const proto = process.env.NODE_ENV === "production" ? "https" : "http";
+      origin = `${proto}://${host}`;
+    } else {
+      origin = appUrl();
+    }
+  }
 
   const link = `${origin}/login/verify?token=${encodeURIComponent(token)}`;
   const sent = await sendLoginEmail(email, link);
-  if (!sent) {
+  if (!sent && process.env.NODE_ENV === "production") {
     return {
       ok: false,
       message: "De e-mail kon niet verstuurd worden. Probeer het later opnieuw.",
@@ -97,7 +106,9 @@ export async function requestLogin(
   if (process.env.NODE_ENV !== "production" && process.env.ALLOW_DEV_LOGIN_LINK === "true") {
     return {
       ok: true,
-      message: "Inloglink succesvol gegenereerd!",
+      message: sent
+        ? "Inloglink succesvol gegenereerd en per e-mail verzonden!"
+        : "Inloglink succesvol gegenereerd (lokaal getest).",
       devLink: link,
     };
   }

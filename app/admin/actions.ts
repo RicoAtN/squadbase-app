@@ -88,9 +88,22 @@ export async function provisionTeam(
   // Generate and send invite token automatically (valid for 7 days)
   let inviteLink: string | undefined;
   try {
-    const rawRows = result.data as unknown as Array<{ team_id: string; manager_id: string }>;
-    if (rawRows && rawRows[0]) {
-      const managerId = rawRows[0].manager_id;
+    const rawData = result.data as unknown as
+      | { rows?: Array<{ team_id: string; manager_id: string }> }
+      | Array<{ team_id: string; manager_id: string }>;
+    const rows = Array.isArray(rawData) ? rawData : (rawData?.rows ?? []);
+    let managerId = rows[0]?.manager_id;
+
+    if (!managerId) {
+      const userLookup = await safeQuery((db) =>
+        db.select({ id: users.id }).from(users).where(eq(users.email, managerEmail)).limit(1),
+      );
+      if (userLookup.ok && userLookup.data[0]) {
+        managerId = userLookup.data[0].id;
+      }
+    }
+
+    if (managerId) {
       const { token, hash } = newToken();
       const expiresAt = new Date(Date.now() + INVITE_TOKEN_TTL_MINUTES * 60 * 1000);
 
@@ -103,6 +116,9 @@ export async function provisionTeam(
       );
 
       inviteLink = `${appUrl()}/login/verify?token=${token}`;
+      if (process.env.NODE_ENV !== "production") {
+        console.log(`\n[dev] Manager invite link voor ${managerEmail} (${teamName}):\n${inviteLink}\n`);
+      }
       await sendTeamInviteEmail({
         to: managerEmail,
         managerName,
@@ -171,6 +187,9 @@ export async function resendTeamInvite(
   );
 
   const link = `${appUrl()}/login/verify?token=${token}`;
+  if (process.env.NODE_ENV !== "production") {
+    console.log(`\n[dev] Resend invite link voor ${managerEmail} (${teamName}):\n${link}\n`);
+  }
   await sendTeamInviteEmail({
     to: managerEmail,
     managerName,
